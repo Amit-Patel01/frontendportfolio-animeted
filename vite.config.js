@@ -9,11 +9,11 @@ export default defineConfig({
     allowedHosts: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:3001',
+        target: process.env.VITE_API_URL || 'http://localhost:3001',
         changeOrigin: true,
       },
       '/contact': {
-        target: 'http://localhost:3001',
+        target: process.env.VITE_API_URL || 'http://localhost:3001',
         changeOrigin: true,
       },
     },
