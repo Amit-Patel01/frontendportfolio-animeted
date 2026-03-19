@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
 
-const API = '/api/portfolio'
+// Use environment variable for backend URL, fallback to relative URL for dev
+const API_BASE = import.meta.env.VITE_API_URL || ''
+const API = `${API_BASE}/api/portfolio`
 
 export const usePortfolio = () => {
   const [items,   setItems]   = useState([])

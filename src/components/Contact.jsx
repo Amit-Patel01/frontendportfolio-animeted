@@ -6,6 +6,10 @@ import {
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 
+// Use environment variable for backend URL, fallback to relative URL for dev
+const API_BASE = import.meta.env.VITE_API_URL || ''
+const CONTACT_ENDPOINT = `${API_BASE}/contact`
+
 const CONTACT_INFO = [
   { icon: Mail,  label: 'amitpatel07029@gmail.com', href: 'mailto:amitpatel07029@gmail.com' },
   { icon: Phone, label: '+91 78742 48481',           href: 'tel:+917874248481' },
@@ -39,7 +43,7 @@ const Contact = () => {
     e.preventDefault()
     setLoading(true)
     try {
-      const res = await fetch('/contact', {
+      const res = await fetch(CONTACT_ENDPOINT, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify(form),
