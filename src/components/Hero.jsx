@@ -105,7 +105,7 @@ const Hero = () => {
               <ArrowRight size={15} />
             </motion.a>
             <motion.a
-              href="/resume.pdf"
+              href="https://drive.google.com/file/d/1Eoq2VtywUnAALt173q323dMqp2cd9z_K/view?usp=drive_link"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
               className="btn-secondary"
