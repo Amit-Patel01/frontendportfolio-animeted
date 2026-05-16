@@ -47,15 +47,12 @@ const Journey = () => (
       transition={{ duration: 0.6 }}
       className="text-center mb-20 space-y-4"
     >
-      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tracking-widest uppercase
-                       bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400
-                       border border-indigo-200/60 dark:border-indigo-500/25">
+      <span className="pill bg-violet-500/10 text-violet-400 border-violet-400/25 uppercase tracking-widest">
         Journey
       </span>
-      <h2 className="font-black text-4xl md:text-5xl text-slate-900 dark:text-white leading-tight"
-          style={{ fontFamily: 'Outfit, sans-serif' }}>
+      <h2 className="font-black text-4xl md:text-5xl text-white leading-tight font-outfit">
         My{' '}
-        <span className="bg-gradient-to-r from-indigo-500 to-blue-600 bg-clip-text text-transparent">
+        <span className="bg-gradient-to-r from-violet-400 to-cyan-500 bg-clip-text text-transparent">
           Timeline
         </span>
       </h2>
@@ -94,8 +91,8 @@ const Journey = () => (
               <motion.div
                 whileHover={{ x: 6 }}
                 transition={{ duration: 0.2 }}
-                className="glass rounded-3xl p-6 flex items-center gap-5 group
-                           hover:shadow-xl transition-all duration-300"
+                className="bento-card p-6 flex items-center gap-5 group
+                           hover:shadow-[0_0_30px_rgba(139,92,246,0.15)] transition-all duration-300"
               >
                 {/* Mobile icon */}
                 <div
@@ -111,12 +108,11 @@ const Journey = () => (
                                       bg-gradient-to-r ${m.color}`}>
                       {m.year}
                     </span>
-                    <h3 className="font-bold text-base text-slate-800 dark:text-white"
-                        style={{ fontFamily: 'Outfit, sans-serif' }}>
+                    <h3 className="font-bold text-base text-white font-outfit">
                       {m.title}
                     </h3>
                   </div>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{m.desc}</p>
+                  <p className="text-sm text-slate-400 leading-relaxed">{m.desc}</p>
                 </div>
               </motion.div>
             </motion.div>

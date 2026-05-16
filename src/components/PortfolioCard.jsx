@@ -15,10 +15,7 @@ const PortfolioCard = ({ item, index, onDelete, isCustom }) => {
       <motion.div
         whileHover={{ y: -8 }}
         transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-        className="glass rounded-3xl overflow-hidden group h-full flex flex-col
-                   hover:shadow-[0_24px_60px_rgba(99,102,241,0.18)]
-                   dark:hover:shadow-[0_24px_60px_rgba(99,102,241,0.25)]
-                   transition-shadow duration-300"
+        className="bento-card group h-full flex flex-col"
       >
         {/* ── Image ── */}
         <div className="relative h-48 overflow-hidden shrink-0">
@@ -99,26 +96,25 @@ const PortfolioCard = ({ item, index, onDelete, isCustom }) => {
         <div className="p-5 flex flex-col flex-1 space-y-3">
           {/* Title row */}
           <div className="flex items-start justify-between gap-2">
-            <h3 className="font-bold text-[15px] text-slate-800 dark:text-white leading-snug"
-                style={{ fontFamily: 'Outfit, sans-serif' }}>
+            <h3 className="font-bold text-[15px] text-white leading-snug font-outfit">
               {item.title}
             </h3>
             {(item.link && item.link !== '#') && (
               <ExternalLink size={14}
-                className="text-slate-400 group-hover:text-indigo-500 shrink-0 mt-0.5
+                className="text-slate-500 group-hover:text-cyan-400 shrink-0 mt-0.5
                            transition-colors duration-200" />
             )}
           </div>
 
           {/* Meta: issuer + date for certs */}
           {!isProject && (item.issuer || item.date) && (
-            <p className="text-[11px] font-semibold text-indigo-500 dark:text-indigo-400">
+            <p className="text-[11px] font-semibold text-fuchsia-400">
               {item.issuer}{item.issuer && item.date ? ' · ' : ''}{item.date}
             </p>
           )}
 
           {/* Description */}
-          <p className="text-xs leading-relaxed text-slate-600 dark:text-slate-400 flex-1">
+          <p className="text-xs leading-relaxed text-slate-400 flex-1">
             {item.description}
           </p>
 
@@ -128,8 +124,8 @@ const PortfolioCard = ({ item, index, onDelete, isCustom }) => {
               <span
                 key={tag}
                 className="px-2 py-0.5 rounded-md text-[10px] font-medium
-                           bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-400
-                           border border-slate-200/80 dark:border-white/10"
+                           bg-[#ffffff0a] text-slate-400
+                           border border-[#ffffff1a]"
               >
                 {tag}
               </span>

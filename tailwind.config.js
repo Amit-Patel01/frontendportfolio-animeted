@@ -9,9 +9,16 @@ export default {
     extend: {
       fontFamily: {
         outfit: ['Outfit', 'sans-serif'],
-        sans: ['DM Sans', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
+        background: '#050505',
+        bento: {
+          light: '#ffffff0a',
+          dark: '#ffffff05',
+          border: '#ffffff1a',
+          hover: '#ffffff0f'
+        },
         brand: {
           50:  '#eef2ff',
           100: '#e0e7ff',
@@ -20,6 +27,11 @@ export default {
           600: '#4f46e5',
           700: '#4338ca',
         },
+        accent: {
+          cyan: '#06b6d4',
+          fuchsia: '#d946ef',
+          violet: '#8b5cf6'
+        }
       },
       backdropBlur: {
         xs: '2px',

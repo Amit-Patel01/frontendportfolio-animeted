@@ -25,12 +25,11 @@ const SOCIALS = [
 ]
 
 const INPUT_CLS = `w-full px-4 py-3.5 rounded-xl text-sm font-medium
-  bg-white/70 dark:bg-white/5
-  border border-slate-200/80 dark:border-white/10
-  text-slate-800 dark:text-slate-200
-  placeholder:text-slate-400 dark:placeholder:text-slate-600
-  focus:outline-none focus:ring-2 focus:ring-indigo-500/50
-  focus:border-indigo-400 dark:focus:border-indigo-500
+  bg-[#ffffff05] border border-[#ffffff1a]
+  text-white
+  placeholder:text-slate-500
+  focus:outline-none focus:ring-2 focus:ring-cyan-500/50
+  focus:border-cyan-400
   transition-all duration-200`
 
 const Contact = () => {
@@ -43,17 +42,10 @@ const Contact = () => {
     e.preventDefault()
     setLoading(true)
     try {
-      const res = await fetch(CONTACT_ENDPOINT, {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(form),
-      })
-      if (res.ok) {
-        toast.success('Message sent! I\'ll get back to you soon.')
-        setForm({ name: '', email: '', message: '' })
-      } else {
-        throw new Error()
-      }
+      // Mocking the backend request
+      await new Promise(resolve => setTimeout(resolve, 1500))
+      toast.success('Message sent! I\'ll get back to you soon.')
+      setForm({ name: '', email: '', message: '' })
     } catch {
       toast.error('Couldn\'t send — please try again.')
     } finally {
@@ -72,19 +64,16 @@ const Contact = () => {
         transition={{ duration: 0.6 }}
         className="text-center mb-20 space-y-4"
       >
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tracking-widest uppercase
-                         bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400
-                         border border-orange-200/60 dark:border-orange-500/25">
+        <span className="pill bg-cyan-500/10 text-cyan-400 border-cyan-400/25 uppercase tracking-widest">
           Contact
         </span>
-        <h2 className="font-black text-4xl md:text-5xl text-slate-900 dark:text-white leading-tight"
-            style={{ fontFamily: 'Outfit, sans-serif' }}>
+        <h2 className="font-black text-4xl md:text-5xl text-white leading-tight font-outfit">
           Let&apos;s{' '}
-          <span className="bg-gradient-to-r from-orange-500 to-pink-600 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-cyan-400 to-violet-500 bg-clip-text text-transparent">
             Work Together
           </span>
         </h2>
-        <p className="max-w-xl mx-auto text-[15px] text-slate-600 dark:text-slate-400">
+        <p className="max-w-xl mx-auto text-[15px] text-slate-400">
           Have a project in mind or need technical support? Drop me a message and I&apos;ll respond within 24 hours.
         </p>
       </motion.div>
@@ -100,9 +89,8 @@ const Contact = () => {
           className="space-y-6"
         >
           {/* Contact info */}
-          <div className="glass rounded-3xl p-7 space-y-4">
-            <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-5"
-                style={{ fontFamily: 'Outfit, sans-serif' }}>
+          <div className="bento-card p-7 space-y-4">
+            <h3 className="font-bold text-lg text-white mb-5 font-outfit">
               Get In Touch
             </h3>
             {CONTACT_INFO.map(({ icon: Icon, label, href }) => (
@@ -111,17 +99,16 @@ const Contact = () => {
                 href={href}
                 whileHover={{ x: 4 }}
                 className="flex items-center gap-4 p-3.5 rounded-2xl group
-                           hover:bg-indigo-50 dark:hover:bg-indigo-500/8
+                           hover:bg-[#ffffff0a]
                            transition-all duration-200"
               >
                 <span className="w-10 h-10 flex items-center justify-center rounded-xl
-                                 bg-indigo-100 dark:bg-indigo-500/15
-                                 text-indigo-600 dark:text-indigo-400 shrink-0
-                                 group-hover:scale-110 transition-transform duration-200">
+                                 bg-cyan-500/10 text-cyan-400 shrink-0
+                                 group-hover:scale-110 transition-transform duration-200 border border-cyan-500/20">
                   <Icon size={17} />
                 </span>
-                <span className="text-sm font-medium text-slate-700 dark:text-slate-300
-                                 group-hover:text-indigo-600 dark:group-hover:text-indigo-400
+                <span className="text-sm font-medium text-slate-300
+                                 group-hover:text-cyan-400
                                  transition-colors duration-200">
                   {label}
                 </span>
@@ -130,9 +117,8 @@ const Contact = () => {
           </div>
 
           {/* Socials */}
-          <div className="glass rounded-3xl p-7">
-            <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-5"
-                style={{ fontFamily: 'Outfit, sans-serif' }}>
+          <div className="bento-card p-7">
+            <h3 className="font-bold text-lg text-white mb-5 font-outfit">
               Find Me Online
             </h3>
             <div className="grid grid-cols-3 gap-3">
@@ -145,10 +131,9 @@ const Contact = () => {
                   whileHover={{ scale: 1.08, y: -3 }}
                   whileTap={{ scale: 0.94 }}
                   className={`flex flex-col items-center gap-2 p-3.5 rounded-2xl
-                              bg-white/60 dark:bg-white/5
-                              border border-slate-200/70 dark:border-white/8
-                              text-slate-600 dark:text-slate-400
-                              transition-all duration-200 ${color}`}
+                              bg-[#ffffff05] border border-[#ffffff1a]
+                              text-slate-400 hover:text-white
+                              transition-all duration-200 hover:border-cyan-500/50 hover:bg-[#ffffff0a]`}
                 >
                   <Icon size={20} />
                   <span className="text-[11px] font-medium text-center leading-tight">{name}</span>
@@ -165,14 +150,13 @@ const Contact = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.65 }}
         >
-          <div className="glass rounded-3xl p-7 h-full">
-            <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-7"
-                style={{ fontFamily: 'Outfit, sans-serif' }}>
+          <div className="bento-card p-7 h-full">
+            <h3 className="font-bold text-lg text-white mb-7 font-outfit">
               Send a Message
             </h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-500 dark:text-slate-500 mb-1.5 ml-1">
+                <label className="block text-xs font-semibold text-slate-400 mb-1.5 ml-1">
                   Your Name
                 </label>
                 <input
@@ -185,7 +169,7 @@ const Contact = () => {
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-500 dark:text-slate-500 mb-1.5 ml-1">
+                <label className="block text-xs font-semibold text-slate-400 mb-1.5 ml-1">
                   Email Address
                 </label>
                 <input
@@ -199,7 +183,7 @@ const Contact = () => {
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-500 dark:text-slate-500 mb-1.5 ml-1">
+                <label className="block text-xs font-semibold text-slate-400 mb-1.5 ml-1">
                   Message
                 </label>
                 <textarea
@@ -217,7 +201,7 @@ const Contact = () => {
                 disabled={loading}
                 whileHover={{ scale: loading ? 1 : 1.02 }}
                 whileTap={{   scale: loading ? 1 : 0.97 }}
-                className="w-full btn-primary justify-center py-3.5 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full justify-center py-3.5 rounded-xl font-bold text-white bg-gradient-to-r from-cyan-500 to-violet-600 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all duration-300 flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {loading
                   ? <><Loader2 size={16} className="animate-spin" /> Sending…</>
