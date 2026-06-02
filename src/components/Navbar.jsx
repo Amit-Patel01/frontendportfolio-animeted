@@ -111,7 +111,7 @@ const Navbar = () => {
                          flex items-center justify-center
                          shadow-[0_4px_14px_rgba(6,182,212,0.4)] border border-white/20"
             >
-              <span className="text-white font-black text-xs sm:text-sm font-outfit">AP</span>
+              <span aria-hidden="true" className="text-[17px] sm:text-[19px] leading-none">💻</span>
             </motion.div>
             <span
               className={`font-bold text-base sm:text-[17px] ${textPrimary}
@@ -120,6 +120,17 @@ const Navbar = () => {
             >
               Amit Patel
             </span>
+            <motion.span
+              aria-label="coding vibe"
+              role="img"
+              animate={{ y: [0, -3, 0], rotate: [-7, 7, -7], scale: [1, 1.1, 1] }}
+              transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+              className="inline-flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-lg
+                         border border-cyan-400/25 bg-cyan-400/10 text-[13px] sm:text-[15px]
+                         shadow-[0_0_18px_rgba(34,211,238,0.22)]"
+            >
+              💻
+            </motion.span>
           </a>
 
           {/* Desktop nav links */}
