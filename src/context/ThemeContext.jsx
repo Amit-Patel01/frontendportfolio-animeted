@@ -2,26 +2,30 @@ import { createContext, useContext, useState, useEffect } from 'react'
 
 const ThemeContext = createContext()
 
-export const ThemeProvider = ({ children }) => {
-  const [darkMode, setDarkMode] = useState(false)
+const getInitialTheme = () => {
+  if (typeof window === 'undefined') return true
 
-  useEffect(() => {
-    const saved = localStorage.getItem('darkMode')
-    if (saved) {
-      setDarkMode(JSON.parse(saved))
-    }
-  }, [])
+  const saved = localStorage.getItem('darkMode')
+  if (saved === null) return true
+
+  try {
+    return JSON.parse(saved)
+  } catch {
+    return true
+  }
+}
+
+export const ThemeProvider = ({ children }) => {
+  const [darkMode, setDarkMode] = useState(getInitialTheme)
 
   useEffect(() => {
     localStorage.setItem('darkMode', JSON.stringify(darkMode))
-    if (darkMode) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
+    document.documentElement.classList.toggle('dark', darkMode)
+    document.documentElement.classList.toggle('light', !darkMode)
+    document.documentElement.dataset.theme = darkMode ? 'dark' : 'light'
   }, [darkMode])
 
-  const toggleTheme = () => setDarkMode(!darkMode)
+  const toggleTheme = () => setDarkMode(current => !current)
 
   return (
     <ThemeContext.Provider value={{ darkMode, toggleTheme }}>

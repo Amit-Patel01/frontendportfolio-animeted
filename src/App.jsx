@@ -1,22 +1,68 @@
 import { useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
-import { ThemeProvider } from './context/ThemeContext'
+import { ThemeProvider, useTheme } from './context/ThemeContext'
 import { AnimatePresence } from 'framer-motion'
 
 import Navbar      from './components/Navbar'
 import Hero        from './components/Hero'
 import BentoGrid   from './components/BentoGrid'
 import Journey     from './components/Journey'
+import Skills      from './components/Skills'
 import Projects    from './components/Projects'
 import Contact     from './components/Contact'
 import ScrollToTop from './components/ScrollToTop'
 import Preloader   from './components/Preloader'
-import CustomCursor from './components/CustomCursor'
+
+const VIDEO_SOURCES = [
+  'https://videos.pexels.com/video-files/29582476/29582476-hd_1920_1080_30fps.mp4',
+  'https://videos.pexels.com/video-files/8438893/8438893-hd_1920_1080_24fps.mp4',
+]
+
+const CODE_STREAMS = [
+  'const app = createPortfolio();',
+  'npm run build -- --production',
+  '<motion.div animate={{ y: [0, -16, 0] }} />',
+  'git commit -m "ship polished ui"',
+  'function solve(problem) { return cleanCode; }',
+  'await deploy({ target: "web" });',
+  'useEffect(() => syncExperience(), []);',
+  'db.projects.find({ featured: true })',
+]
+
+const SiteVideoBackground = ({ mode }) => (
+  <div className="site-video-backdrop fixed inset-0 z-0 overflow-hidden pointer-events-none" data-mode={mode} aria-hidden="true">
+    <video
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="auto"
+      className="site-video-backdrop__media absolute inset-0 h-full w-full object-cover"
+    >
+      {VIDEO_SOURCES.map(src => (
+        <source key={src} src={src} type="video/mp4" />
+      ))}
+    </video>
+    <div className="site-video-backdrop__veil" />
+    <div className="site-video-backdrop__grid" />
+    <div className="site-video-backdrop__scan" />
+    <div className="site-video-backdrop__glow" />
+    <div className="code-orbit">
+      {CODE_STREAMS.map((line, index) => (
+        <span key={line} style={{ '--i': index }}>
+          {line}
+        </span>
+      ))}
+    </div>
+  </div>
+)
 
 /* ── Portfolio (main site) ── */
 const Portfolio = () => {
   const [loading, setLoading] = useState(true)
+  const { darkMode } = useTheme()
+  const mode = darkMode ? 'dark' : 'light'
 
   useEffect(() => {
     document.title = 'Amit Patel | Full Stack Developer'
@@ -28,24 +74,18 @@ const Portfolio = () => {
         {loading && <Preloader onLoadingComplete={() => setLoading(false)} />}
       </AnimatePresence>
 
-      <div className={`relative min-h-screen overflow-x-hidden
-                      bg-[#050505]
-                      text-white transition-colors duration-500
+      <div className={`site-shell relative min-h-screen overflow-x-hidden
+                      bg-[#050505] text-white transition-colors duration-500
                       ${loading ? 'h-screen overflow-hidden' : ''}`}>
         
-        <CustomCursor />
+        <SiteVideoBackground mode={mode} />
 
-        {/* Ambient blobs */}
-        <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-cyan-500/10 via-transparent to-transparent opacity-60" />
-          <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-fuchsia-500/10 via-transparent to-transparent opacity-60" />
-        </div>
-
-        <div className="relative z-10">
+        <div className="site-content relative z-10">
           <Navbar />
           <Hero />
           <BentoGrid />
           <Journey />
+          <Skills />
           <Projects />
           <Contact />
           <ScrollToTop />

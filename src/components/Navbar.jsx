@@ -1,22 +1,52 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Github, Linkedin, Mail, Download, Moon, Sun } from 'lucide-react'
+import { useTheme } from '../context/ThemeContext'
 
 const NAV_LINKS = [
   { name: 'Home',     href: 'hero' },
   { name: 'About',    href: 'about' },
+  { name: 'Skills',   href: 'skills' },
   { name: 'Journey',  href: 'journey' },
   { name: 'Projects', href: 'projects' },
   { name: 'Contact',  href: 'contact' },
+]
+
+const SOCIAL_LINKS = [
+  { icon: Github,  url: 'https://github.com/amit-patel01', label: 'GitHub' },
+  { icon: Linkedin, url: 'https://www.linkedin.com/in/amit-patel01/', label: 'LinkedIn' },
+  { icon: Mail,    url: 'mailto:amitpatel07029@gmail.com', label: 'Email' },
 ]
 
 const Navbar = () => {
   const [isOpen,   setIsOpen]   = useState(false)
   const [active,   setActive]   = useState('hero')
   const [scrolled, setScrolled] = useState(false)
+  const [hidden,   setHidden]   = useState(false)
+  const lastScroll = useRef(0)
+  const { darkMode, toggleTheme } = useTheme()
+  const surfaceClass = darkMode
+    ? scrolled
+      ? 'bg-[#050505]/90 border-[#ffffff1a] shadow-[0_12px_50px_rgba(6,182,212,0.15)]'
+      : 'bg-[#050505]/[0.45] border-[#ffffff1a] shadow-[0_8px_40px_rgba(0,0,0,0.5)]'
+    : scrolled
+      ? 'bg-sky-100/[0.78] border-cyan-300/60 shadow-[0_12px_46px_rgba(8,47,73,0.14)]'
+      : 'bg-sky-100/[0.58] border-cyan-200/60 shadow-[0_8px_36px_rgba(8,47,73,0.11)]'
+  const textPrimary = darkMode ? 'text-white' : 'text-slate-950'
+  const textMuted = darkMode ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-950'
+  const controlClass = darkMode
+    ? 'bg-[#ffffff1a] border-[#ffffff1a] text-slate-300 hover:text-cyan-400 hover:border-cyan-500/30 hover:bg-cyan-500/10'
+    : 'bg-sky-100/70 border-cyan-200/80 text-slate-700 hover:text-cyan-700 hover:border-cyan-300/80 hover:bg-cyan-100/75'
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50)
+    const onScroll = () => {
+      const currentScroll = window.scrollY
+
+      setHidden(currentScroll > 140 && currentScroll > lastScroll.current)
+      setScrolled(currentScroll > 50)
+      lastScroll.current = currentScroll
+    }
+    
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -36,7 +66,7 @@ const Navbar = () => {
   }, [])
 
   useEffect(() => {
-    const onResize = () => { if (window.innerWidth >= 768) setIsOpen(false) }
+    const onResize = () => { if (window.innerWidth >= 1024) setIsOpen(false) }
     window.addEventListener('resize', onResize)
     return () => window.removeEventListener('resize', onResize)
   }, [])
@@ -53,18 +83,18 @@ const Navbar = () => {
     >
       <motion.div
         initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0,   opacity: 1 }}
+        animate={{ 
+          y: hidden ? -120 : 0, 
+          opacity: hidden ? 0 : 1 
+        }}
         transition={{ type: 'spring', stiffness: 260, damping: 24, delay: 0.05 }}
         className={`
-          w-full max-w-[94%] sm:max-w-[90%] md:max-w-[85%] lg:max-w-[75%] xl:max-w-[68%]
-          rounded-2xl
+          w-full max-w-[96%] sm:max-w-[92%] lg:max-w-[88%] xl:max-w-[78%] 2xl:max-w-[68%]
+          rounded-lg
           backdrop-blur-2xl
-          border border-[#ffffff1a]
+          border
           transition-all duration-300
-          ${scrolled
-            ? 'bg-[#050505]/90 shadow-[0_12px_50px_rgba(6,182,212,0.15)]'
-            : 'bg-[#ffffff05] shadow-[0_8px_40px_rgba(0,0,0,0.5)]'
-          }
+          ${surfaceClass}
         `}
       >
         <div className="flex items-center justify-between h-14 sm:h-16 px-4 sm:px-5">
@@ -72,28 +102,28 @@ const Navbar = () => {
           <a
             href="#hero"
             onClick={() => { setActive('hero'); setIsOpen(false) }}
-            className="flex items-center gap-2.5 group shrink-0"
+            className="flex shrink-0 items-center gap-2.5 group"
           >
             <motion.div
               whileHover={{ scale: 1.1, rotate: 3 }}
               whileTap={{ scale: 0.95 }}
-              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-cyan-400 to-violet-600
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gradient-to-br from-cyan-400 to-violet-600
                          flex items-center justify-center
                          shadow-[0_4px_14px_rgba(6,182,212,0.4)] border border-white/20"
             >
               <span className="text-white font-black text-xs sm:text-sm font-outfit">AP</span>
             </motion.div>
             <span
-              className="font-bold text-base sm:text-[17px] text-white
+              className={`font-bold text-base sm:text-[17px] ${textPrimary}
                          group-hover:text-cyan-400
-                         transition-colors duration-200 font-outfit"
+                         transition-colors duration-200 font-outfit`}
             >
               Amit Patel
             </span>
           </a>
 
           {/* Desktop nav links */}
-          <ul className="hidden md:flex items-center gap-0.5 lg:gap-1">
+          <ul className="hidden lg:flex items-center gap-0.5 xl:gap-1">
             {NAV_LINKS.map(link => (
               <li key={link.href} className="relative">
                 <a
@@ -102,7 +132,7 @@ const Navbar = () => {
                   className={`relative px-3 py-1.5 rounded-lg text-sm font-medium transition-colors duration-200
                     ${active === link.href
                       ? 'text-cyan-400'
-                      : 'text-slate-400 hover:text-white'
+                      : textMuted
                     }`}
                 >
                   {link.name}
@@ -118,16 +148,63 @@ const Navbar = () => {
             ))}
           </ul>
 
-          {/* Right controls (Mobile Menu Toggle) */}
-          <div className="flex items-center gap-2 shrink-0 md:hidden">
+          {/* Right controls (Social + Resume + Theme + Mobile Menu) */}
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            {/* Theme Toggle Button */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={toggleTheme}
+              aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+              title={darkMode ? 'Light mode' : 'Dark mode'}
+              className={`w-9 h-9 flex items-center justify-center rounded-lg border transition-all duration-200 ${controlClass}`}
+            >
+              {darkMode ? <Sun size={16} /> : <Moon size={16} />}
+            </motion.button>
+
+            {/* Social Links (Desktop only) */}
+            <div className="hidden lg:flex items-center gap-2">
+              {SOCIAL_LINKS.map((social) => {
+                const Icon = social.icon
+                return (
+                  <motion.a
+                    key={social.label}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={social.label}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    className={`w-9 h-9 flex items-center justify-center rounded-lg border transition-all duration-200 ${controlClass}`}
+                  >
+                    <Icon size={16} />
+                  </motion.a>
+                )
+              })}
+            </div>
+
+            {/* Resume Download Button (Desktop only) */}
+            <motion.a
+              href="#contact"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="hidden lg:flex items-center gap-1.5 px-3.5 py-2 rounded-lg
+                         bg-gradient-to-r from-cyan-500 to-blue-600
+                         text-white text-xs sm:text-sm font-semibold
+                         hover:shadow-[0_0_20px_rgba(6,182,212,0.5)]
+                         transition-all duration-300 shrink-0"
+            >
+              <Download size={16} />
+              <span className="hidden sm:inline">Resume</span>
+            </motion.a>
+
+            {/* Mobile Menu Toggle */}
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => setIsOpen(o => !o)}
               aria-label="Toggle menu"
-              className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-xl
-                         bg-[#ffffff1a] border border-[#ffffff1a] text-white
-                         transition-colors duration-200"
+              className={`lg:hidden w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg border transition-colors duration-200 ${controlClass}`}
             >
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
@@ -152,9 +229,9 @@ const Navbar = () => {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{    opacity: 0, height: 0 }}
               transition={{ duration: 0.22, ease: 'easeInOut' }}
-              className="md:hidden overflow-hidden"
+              className="lg:hidden overflow-hidden border-t border-[#ffffff0a]"
             >
-              <ul className="flex flex-col gap-1 px-2 pb-4 pt-1">
+              <ul className="flex flex-col gap-1 px-2 py-3">
                 {NAV_LINKS.map((link, i) => (
                   <motion.li
                     key={link.href}
@@ -165,11 +242,13 @@ const Navbar = () => {
                     <a
                       href={`#${link.href}`}
                       onClick={() => { setActive(link.href); setIsOpen(false) }}
-                      className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium
+                      className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium
                                   transition-all duration-200
                         ${active === link.href
                           ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30'
-                          : 'text-slate-400 hover:bg-[#ffffff0a] hover:text-white'
+                          : darkMode
+                            ? 'text-slate-300 hover:bg-[#ffffff0a] hover:text-white'
+                            : 'text-slate-700 hover:bg-cyan-50/80 hover:text-slate-950'
                         }`}
                     >
                       {active === link.href && (
@@ -180,6 +259,49 @@ const Navbar = () => {
                   </motion.li>
                 ))}
               </ul>
+
+              {/* Mobile Social & Resume */}
+              <div className="px-2 py-3 border-t border-[#ffffff0a] space-y-2">
+                {/* Social Links */}
+                <div className="flex items-center gap-2 justify-center">
+                  {SOCIAL_LINKS.map((social, i) => {
+                    const Icon = social.icon
+                    return (
+                      <motion.a
+                        key={social.label}
+                        href={social.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title={social.label}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.05 + 0.2 }}
+                        whileHover={{ scale: 1.1 }}
+                        className={`w-10 h-10 flex items-center justify-center rounded-lg border transition-all duration-200 ${controlClass}`}
+                      >
+                        <Icon size={18} />
+                      </motion.a>
+                    )
+                  })}
+                </div>
+
+                {/* Resume Button */}
+                <motion.a
+                  href="#contact"
+                  onClick={() => setIsOpen(false)}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.35 }}
+                  className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg
+                             bg-gradient-to-r from-cyan-500 to-blue-600
+                             text-white text-sm font-semibold
+                             hover:shadow-[0_0_20px_rgba(6,182,212,0.5)]
+                             transition-all duration-300"
+                >
+                  <Download size={16} />
+                  Download Resume
+                </motion.a>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
