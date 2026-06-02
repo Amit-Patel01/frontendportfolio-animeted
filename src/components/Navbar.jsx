@@ -18,6 +18,8 @@ const SOCIAL_LINKS = [
   { icon: Mail,    url: 'mailto:amitpatel07029@gmail.com', label: 'Email' },
 ]
 
+const RESUME_URL = 'https://drive.google.com/file/d/1JrO16wfcc1qUyRbJzVv6jEWlDPYvTO5W/view?usp=sharing'
+
 const Navbar = () => {
   const [isOpen,   setIsOpen]   = useState(false)
   const [active,   setActive]   = useState('hero')
@@ -196,7 +198,9 @@ const Navbar = () => {
 
             {/* Resume Download Button (Desktop only) */}
             <motion.a
-              href="#contact"
+              href={RESUME_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="hidden lg:flex items-center gap-1.5 px-3.5 py-2 rounded-lg
@@ -298,7 +302,9 @@ const Navbar = () => {
 
                 {/* Resume Button */}
                 <motion.a
-                  href="#contact"
+                  href={RESUME_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => setIsOpen(false)}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
