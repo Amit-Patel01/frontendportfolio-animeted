@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Github, Linkedin, Mail, Download, Moon, Sun } from 'lucide-react'
+import { Menu, X, Github, Linkedin, Mail, Download, Code2 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 
 const NAV_LINKS = [
@@ -26,7 +26,8 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false)
   const [hidden,   setHidden]   = useState(false)
   const lastScroll = useRef(0)
-  const { darkMode, toggleTheme } = useTheme()
+  const { darkMode } = useTheme()
+  
   const surfaceClass = darkMode
     ? scrolled
       ? 'bg-[#050505]/90 border-[#ffffff1a] shadow-[0_12px_50px_rgba(6,182,212,0.15)]'
@@ -34,6 +35,7 @@ const Navbar = () => {
     : scrolled
       ? 'bg-sky-100/[0.78] border-cyan-300/60 shadow-[0_12px_46px_rgba(8,47,73,0.14)]'
       : 'bg-sky-100/[0.58] border-cyan-200/60 shadow-[0_8px_36px_rgba(8,47,73,0.11)]'
+  
   const textPrimary = darkMode ? 'text-white' : 'text-slate-950'
   const textMuted = darkMode ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-950'
   const controlClass = darkMode
@@ -113,7 +115,7 @@ const Navbar = () => {
                          flex items-center justify-center
                          shadow-[0_4px_14px_rgba(6,182,212,0.4)] border border-white/20"
             >
-              <span aria-hidden="true" className="text-[17px] sm:text-[19px] leading-none">💻</span>
+              <Code2 size={18} className="text-white" />
             </motion.div>
             <span
               className={`font-bold text-base sm:text-[17px] ${textPrimary}
@@ -161,20 +163,8 @@ const Navbar = () => {
             ))}
           </ul>
 
-          {/* Right controls (Social + Resume + Theme + Mobile Menu) */}
+          {/* Right controls (Social + Resume + Mobile Menu) */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            {/* Theme Toggle Button */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={toggleTheme}
-              aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-              title={darkMode ? 'Light mode' : 'Dark mode'}
-              className={`w-9 h-9 flex items-center justify-center rounded-lg border transition-all duration-200 ${controlClass}`}
-            >
-              {darkMode ? <Sun size={16} /> : <Moon size={16} />}
-            </motion.button>
-
             {/* Social Links (Desktop only) */}
             <div className="hidden lg:flex items-center gap-2">
               {SOCIAL_LINKS.map((social) => {
@@ -324,7 +314,7 @@ const Navbar = () => {
         </AnimatePresence>
       </motion.div>
     </div>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;
