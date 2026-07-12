@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useEffect } from 'react'
 
 const ThemeContext = createContext()
 
@@ -7,8 +7,6 @@ const getInitialTheme = () => {
 }
 
 export const ThemeProvider = ({ children }) => {
-  const [darkMode, setDarkMode] = useState(false)
-
   useEffect(() => {
     localStorage.setItem('darkMode', JSON.stringify(false))
     document.documentElement.classList.remove('dark')

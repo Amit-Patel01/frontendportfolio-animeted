@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Github, Linkedin, Mail, Download, Code2 } from 'lucide-react'
+import { Menu, X, Github, Linkedin, Mail, Download } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
+import logoImg from '../assets/logo.png'
 
 const NAV_LINKS = [
   { name: 'Home',     href: 'hero' },
@@ -106,35 +107,15 @@ const Navbar = () => {
           <a
             href="#hero"
             onClick={() => { setActive('hero'); setIsOpen(false) }}
-            className="flex shrink-0 items-center gap-2.5 group"
+            className="flex shrink-0 items-center group"
           >
-            <motion.div
-              whileHover={{ scale: 1.1, rotate: 3 }}
+            <motion.img
+              src={logoImg}
+              alt="Logo"
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gradient-to-br from-cyan-400 to-violet-600
-                         flex items-center justify-center
-                         shadow-[0_4px_14px_rgba(6,182,212,0.4)] border border-white/20"
-            >
-              <Code2 size={18} className="text-white" />
-            </motion.div>
-            <span
-              className={`font-bold text-base sm:text-[17px] ${textPrimary}
-                         group-hover:text-cyan-400
-                         transition-colors duration-200 font-outfit`}
-            >
-              Amit Patel
-            </span>
-            <motion.span
-              aria-label="coding vibe"
-              role="img"
-              animate={{ y: [0, -3, 0], rotate: [-7, 7, -7], scale: [1, 1.1, 1] }}
-              transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-              className="inline-flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-lg
-                         border border-cyan-400/25 bg-cyan-400/10 text-[13px] sm:text-[15px]
-                         shadow-[0_0_18px_rgba(34,211,238,0.22)]"
-            >
-              💻
-            </motion.span>
+              className="h-9 w-auto object-contain sm:h-10 transition-transform duration-300"
+            />
           </a>
 
           {/* Desktop nav links */}

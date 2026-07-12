@@ -171,33 +171,148 @@ html.light .site-content {
   color: #0f172a;
 }
 
-.site-video-backdrop__media {
-  opacity: 0.34;
-  transform: scale(1.06);
-  filter: saturate(1.05) contrast(1.16) hue-rotate(184deg);
+/* ── Liquid Blobs styles ── */
+.blob-container {
+  position: absolute;
+  inset: 0;
+  filter: url(#liquid-goo) blur(20px);
+  opacity: 0.72;
+  mix-blend-mode: screen;
+  will-change: transform;
 }
 
-.site-video-backdrop[data-mode="light"] .site-video-backdrop__media {
-  opacity: 0.1;
-  filter: saturate(0.82) contrast(0.95) brightness(1.18) hue-rotate(168deg);
+.site-video-backdrop[data-mode="light"] .blob-container {
+  opacity: 0.76;
+  mix-blend-mode: normal;
+}
+
+.blob {
+  position: absolute;
+  width: 50vw;
+  height: 50vw;
+  min-width: 350px;
+  min-height: 350px;
+  max-width: 700px;
+  max-height: 700px;
+  opacity: 0.6;
+  will-change: transform, border-radius;
+}
+
+/* Blob positions & gradients */
+.blob-1 {
+  top: -8%;
+  left: -5%;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.8) 0%, rgba(59, 130, 246, 0.1) 100%);
+  animation: morph-1 25s ease-in-out infinite;
+}
+
+.blob-2 {
+  bottom: -8%;
+  right: -5%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.8) 0%, rgba(236, 72, 153, 0.1) 100%);
+  animation: morph-2 30s ease-in-out infinite;
+}
+
+.blob-3 {
+  top: 30%;
+  right: 15%;
+  background: radial-gradient(circle, rgba(217, 70, 239, 0.7) 0%, rgba(244, 63, 94, 0.1) 100%);
+  animation: morph-3 28s ease-in-out infinite;
+}
+
+.blob-4 {
+  bottom: 18%;
+  left: 10%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.7) 0%, rgba(16, 185, 129, 0.1) 100%);
+  animation: morph-4 35s ease-in-out infinite;
+}
+
+/* Light mode specific blob gradients */
+.site-video-backdrop[data-mode="light"] .blob-1 {
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.72) 0%, rgba(59, 130, 246, 0.1) 100%);
+}
+
+.site-video-backdrop[data-mode="light"] .blob-2 {
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.72) 0%, rgba(236, 72, 153, 0.1) 100%);
+}
+
+.site-video-backdrop[data-mode="light"] .blob-3 {
+  background: radial-gradient(circle, rgba(217, 70, 239, 0.65) 0%, rgba(244, 63, 94, 0.1) 100%);
+}
+
+.site-video-backdrop[data-mode="light"] .blob-4 {
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.65) 0%, rgba(234, 179, 8, 0.1) 100%);
+}
+
+/* Morphing Keyframe animations */
+@keyframes morph-1 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+  }
+  33% {
+    transform: translate3d(60px, 40px, 0) scale(1.15) rotate(120deg);
+    border-radius: 70% 30% 52% 48% / 60% 40% 60% 40%;
+  }
+  66% {
+    transform: translate3d(-40px, 90px, 0) scale(0.9) rotate(240deg);
+    border-radius: 50% 50% 28% 72% / 30% 80% 20% 70%;
+  }
+}
+
+@keyframes morph-2 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%;
+  }
+  50% {
+    transform: translate3d(-70px, -30px, 0) scale(1.2) rotate(-180deg);
+    border-radius: 38% 62% 60% 40% / 43% 57% 43% 57%;
+  }
+}
+
+@keyframes morph-3 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    border-radius: 35% 65% 55% 45% / 48% 32% 68% 52%;
+  }
+  40% {
+    transform: translate3d(90px, -60px, 0) scale(1.1) rotate(90deg);
+    border-radius: 60% 40% 40% 60% / 50% 50% 50% 50%;
+  }
+  70% {
+    transform: translate3d(-20px, 40px, 0) scale(1.15) rotate(210deg);
+    border-radius: 45% 55% 30% 70% / 35% 65% 35% 65%;
+  }
+}
+
+@keyframes morph-4 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1.05) rotate(0deg);
+    border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+  }
+  50% {
+    transform: translate3d(-80px, 70px, 0) scale(0.85) rotate(180deg);
+    border-radius: 30% 70% 70% 30% / 50% 30% 70% 50%;
+  }
 }
 
 .site-video-backdrop__veil {
   position: absolute;
   inset: 0;
+  backdrop-filter: blur(80px);
   background:
-    radial-gradient(circle at 50% 18%, rgba(34, 211, 238, 0.18), transparent 26%),
-    radial-gradient(circle at 10% 45%, rgba(139, 92, 246, 0.18), transparent 30%),
-    radial-gradient(circle at 88% 76%, rgba(251, 146, 60, 0.12), transparent 28%),
-    linear-gradient(180deg, rgba(5, 5, 5, 0.84) 0%, rgba(5, 5, 5, 0.68) 44%, rgba(5, 5, 5, 0.9) 100%);
+    radial-gradient(circle at 50% 18%, rgba(34, 211, 238, 0.05), transparent 35%),
+    radial-gradient(circle at 10% 45%, rgba(139, 92, 246, 0.05), transparent 40%),
+    linear-gradient(180deg, rgba(5, 5, 5, 0.75) 0%, rgba(5, 5, 5, 0.5) 45%, rgba(5, 5, 5, 0.88) 100%);
 }
 
 .site-video-backdrop[data-mode="light"] .site-video-backdrop__veil {
+  backdrop-filter: blur(80px);
   background:
-    radial-gradient(circle at 46% 18%, rgba(8, 145, 178, 0.12), transparent 28%),
-    radial-gradient(circle at 12% 46%, rgba(99, 102, 241, 0.07), transparent 30%),
-    radial-gradient(circle at 88% 76%, rgba(245, 158, 11, 0.06), transparent 30%),
-    linear-gradient(180deg, rgba(232, 246, 255, 0.9) 0%, rgba(215, 236, 251, 0.84) 42%, rgba(205, 228, 245, 0.9) 100%);
+    radial-gradient(circle at 46% 18%, rgba(8, 145, 178, 0.04), transparent 35%),
+    radial-gradient(circle at 12% 46%, rgba(99, 102, 241, 0.03), transparent 40%),
+    linear-gradient(180deg, rgba(248, 250, 252, 0.72) 0%, rgba(241, 245, 249, 0.62) 45%, rgba(226, 232, 240, 0.8) 100%);
 }
 
 .site-video-backdrop__grid {
@@ -259,49 +374,52 @@ html.light .site-content {
   left: -52%;
   top: var(--row);
   min-width: max-content;
-  padding: 0.5rem 0.8rem;
-  border: 1px solid rgba(34, 211, 238, 0.14);
-  border-radius: 8px;
-  background: rgba(2, 6, 23, 0.2);
-  color: rgba(125, 249, 255, 0.4);
-  font-size: clamp(0.72rem, 1.1vw, 1rem);
-  font-weight: 600;
-  letter-spacing: 0;
-  text-shadow: 0 0 18px rgba(34, 211, 238, 0.4);
-  backdrop-filter: blur(10px);
-  animation: codeOrbit 18s linear infinite;
-  animation-delay: calc(var(--i) * -2.4s);
-  transform: translate3d(0, 0, 0) rotate(-4deg);
+  padding: 0.2rem 0.5rem;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: rgba(6, 182, 212, 0.12);
+  font-size: clamp(0.75rem, 1.15vw, 1.05rem);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-shadow: none;
+  backdrop-filter: none;
+  animation: codeOrbit 20s linear infinite;
+  animation-delay: calc(var(--i) * -2.5s);
+  transform: translate3d(0, 0, 0) rotate(-2deg);
 }
 
 .code-orbit span:nth-child(even) {
-  color: rgba(196, 181, 253, 0.38);
-  border-color: rgba(167, 139, 250, 0.14);
-  animation-duration: 22s;
-  transform: translate3d(0, 0, 0) rotate(3deg);
+  color: rgba(139, 92, 246, 0.12);
+  border: none;
+  animation-duration: 24s;
+  transform: translate3d(0, 0, 0) rotate(2deg);
 }
 
-.site-video-backdrop[data-mode="light"] .code-orbit span {
-  background: rgba(186, 220, 240, 0.38);
-  color: rgba(8, 93, 121, 0.34);
-  border-color: rgba(8, 145, 178, 0.18);
-  text-shadow: 0 0 16px rgba(8, 145, 178, 0.12);
+.code-orbit[data-mode="light"] span {
+  background: transparent;
+  color: rgba(8, 145, 178, 0.09);
+  border: none;
+  text-shadow: none;
 }
 
 html.light .bento-card,
 html.light .glass {
-  background:
-    linear-gradient(145deg, rgba(224, 242, 253, 0.8), rgba(186, 220, 240, 0.62));
-  border-color: rgba(8, 93, 121, 0.18);
-  box-shadow: 0 16px 48px rgba(8, 47, 73, 0.1);
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(20px) saturate(130%) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 
+    0 12px 36px rgba(15, 23, 42, 0.04),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5) !important;
 }
 
 html.light .bento-card:hover,
 html.light .glass:hover {
-  background:
-    linear-gradient(145deg, rgba(232, 246, 255, 0.9), rgba(199, 229, 246, 0.72));
-  border-color: rgba(8, 93, 121, 0.24);
-  box-shadow: 0 20px 58px rgba(8, 47, 73, 0.13);
+  background: rgba(255, 255, 255, 0.55) !important;
+  border-color: rgba(255, 255, 255, 0.65) !important;
+  box-shadow: 
+    0 20px 48px rgba(15, 23, 42, 0.07),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
 }
 
 html.light .site-content .text-white,
@@ -444,6 +562,109 @@ html.light .hero-chip {
     scroll-behavior: auto !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* ── Infinite Marquee ── */
+.mask-fade {
+  mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+}
+
+@keyframes marquee {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes marquee-reverse {
+  0% { transform: translate3d(-50%, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+.animate-marquee-left {
+  animation: marquee var(--marquee-speed, 35s) linear infinite;
+}
+
+.animate-marquee-right {
+  animation: marquee-reverse var(--marquee-speed, 35s) linear infinite;
+}
+
+.animate-marquee-left:hover,
+.animate-marquee-right:hover {
+  animation-play-state: paused;
+}
+
+html.light .marquee-card {
+  background: rgba(255, 255, 255, 0.45) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03) !important;
+}
+
+html.light .marquee-card span {
+  color: #24384f !important;
+}
+
+html.light .marquee-card:hover span {
+  color: #0f172a !important;
+}
+
+/* ── Magnetic Bento Glow ── */
+.bento-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: radial-gradient(
+    300px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+    rgba(6, 182, 212, 0.35),
+    transparent 45%
+  );
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 2;
+}
+
+.bento-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    250px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+    rgba(6, 182, 212, 0.04),
+    transparent 50%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 1;
+}
+
+.bento-card:hover::before,
+.bento-card:hover::after {
+  opacity: 1;
+}
+
+html.light .bento-card::before {
+  background: radial-gradient(
+    300px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+    rgba(8, 145, 178, 0.38),
+    transparent 45%
+  );
+}
+
+html.light .bento-card::after {
+  background: radial-gradient(
+    250px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+    rgba(8, 145, 178, 0.05),
+    transparent 50%
+  );
 }
 
 /* ── Scrollbar ── */

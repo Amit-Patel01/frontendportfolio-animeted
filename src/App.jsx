@@ -12,12 +12,7 @@ import Skills      from './components/Skills'
 import Projects    from './components/Projects'
 import Contact     from './components/Contact'
 import ScrollToTop from './components/ScrollToTop'
-import Preloader   from './components/Preloader'
-
-const VIDEO_SOURCES = [
-  'https://videos.pexels.com/video-files/29582476/29582476-hd_1920_1080_30fps.mp4',
-  'https://videos.pexels.com/video-files/8438893/8438893-hd_1920_1080_24fps.mp4',
-]
+// Preloader removed
 
 const CODE_STREAMS = [
   'const app = createPortfolio();',
@@ -30,37 +25,37 @@ const CODE_STREAMS = [
   'db.projects.find({ featured: true })',
 ]
 
-const SiteVideoBackground = ({ mode }) => (
+const LiquidAuroraBackground = ({ mode }) => (
   <div className="site-video-backdrop fixed inset-0 z-0 overflow-hidden pointer-events-none" data-mode={mode} aria-hidden="true">
-    <video
-      autoPlay
-      muted
-      loop
-      playsInline
-      preload="auto"
-      className="site-video-backdrop__media absolute inset-0 h-full w-full object-cover"
-    >
-      {VIDEO_SOURCES.map(src => (
-        <source key={src} src={src} type="video/mp4" />
-      ))}
-    </video>
+    {/* Liquid Morphing Blobs */}
+    <div className="blob-container absolute inset-0 overflow-hidden">
+      <div className="blob blob-1" />
+      <div className="blob blob-2" />
+      <div className="blob blob-3" />
+      <div className="blob blob-4" />
+    </div>
+
+    {/* SVG Gooey filter for blending the blobs organically */}
+    <svg className="hidden" xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <defs>
+        <filter id="liquid-goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="40" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 40 -15" result="goo" />
+          <feBlend in="SourceGraphic" in2="goo" />
+        </filter>
+      </defs>
+    </svg>
+
     <div className="site-video-backdrop__veil" />
     <div className="site-video-backdrop__grid" />
     <div className="site-video-backdrop__scan" />
     <div className="site-video-backdrop__glow" />
-    <div className="code-orbit">
-      {CODE_STREAMS.map((line, index) => (
-        <span key={line} style={{ '--i': index }}>
-          {line}
-        </span>
-      ))}
-    </div>
   </div>
 )
 
 /* ── Portfolio (main site) ── */
 const Portfolio = () => {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const { darkMode } = useTheme()
   const mode = darkMode ? 'dark' : 'light'
 
@@ -70,15 +65,9 @@ const Portfolio = () => {
 
   return (
     <>
-      <AnimatePresence mode="wait">
-        {loading && <Preloader onLoadingComplete={() => setLoading(false)} />}
-      </AnimatePresence>
-
-      <div className={`site-shell relative min-h-screen overflow-x-hidden
-                      bg-[#050505] text-white transition-colors duration-500
-                      ${loading ? 'h-screen overflow-hidden' : ''}`}>
+      <div className="site-shell relative min-h-screen overflow-x-hidden bg-[#050505] text-white transition-colors duration-500">
         
-        <SiteVideoBackground mode={mode} />
+        <LiquidAuroraBackground mode={mode} />
 
         <div className="site-content relative z-10">
           <Navbar />
@@ -89,6 +78,15 @@ const Portfolio = () => {
           <Projects />
           <Contact />
           <ScrollToTop />
+        </div>
+
+        {/* Floating code orbit overlay on top of all boxes */}
+        <div className="code-orbit fixed inset-0 z-20 pointer-events-none" data-mode={mode}>
+          {CODE_STREAMS.map((line, index) => (
+            <span key={line} style={{ '--i': index }}>
+              {line}
+            </span>
+          ))}
         </div>
       </div>
     </>

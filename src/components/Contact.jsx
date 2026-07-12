@@ -64,7 +64,8 @@ const Contact = () => {
         transition={{ duration: 0.6 }}
         className="text-center mb-20 space-y-4"
       >
-        <span className="pill bg-cyan-500/10 text-cyan-400 border-cyan-400/25 uppercase tracking-widest">
+        <span className="inline-flex items-center gap-1.5 px-4.5 py-1.5 rounded-full text-[10px] font-extrabold tracking-widest uppercase
+                       bg-gradient-to-r from-blue-500 to-indigo-600 text-white border-none shadow-[0_3px_12px_rgba(79,70,229,0.3)]">
           Contact
         </span>
         <h2 className="font-black text-4xl md:text-5xl text-white leading-tight font-outfit">
