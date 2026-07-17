@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Github, Linkedin, Mail, Download } from 'lucide-react'
-import { useTheme } from '../context/ThemeContext'
+import { Menu, X, Download } from 'lucide-react'
+import { FaGithub, FaLinkedinIn } from 'react-icons/fa'
+import { MdOutlineEmail } from 'react-icons/md'
 import logoImg from '../assets/logo.png'
 
 const NAV_LINKS = [
@@ -14,9 +15,9 @@ const NAV_LINKS = [
 ]
 
 const SOCIAL_LINKS = [
-  { icon: Github,  url: 'https://github.com/amit-patel01', label: 'GitHub' },
-  { icon: Linkedin, url: 'https://www.linkedin.com/in/amit-patel01/', label: 'LinkedIn' },
-  { icon: Mail,    url: 'mailto:amitpatel07029@gmail.com', label: 'Email' },
+  { icon: FaGithub,       url: 'https://github.com/amit-patel01',             label: 'GitHub',   color: 'hover:text-slate-900 hover:bg-slate-100 hover:border-slate-300' },
+  { icon: FaLinkedinIn,   url: 'https://www.linkedin.com/in/amit-patel01/',   label: 'LinkedIn', color: 'hover:text-[#0077B5] hover:bg-blue-50 hover:border-blue-200' },
+  { icon: MdOutlineEmail, url: 'mailto:amitpatel07029@gmail.com',             label: 'Email',    color: 'hover:text-cyan-700 hover:bg-cyan-50 hover:border-cyan-300' },
 ]
 
 const RESUME_URL = 'https://drive.google.com/file/d/1JrO16wfcc1qUyRbJzVv6jEWlDPYvTO5W/view?usp=sharing'
@@ -27,31 +28,14 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false)
   const [hidden,   setHidden]   = useState(false)
   const lastScroll = useRef(0)
-  const { darkMode } = useTheme()
-  
-  const surfaceClass = darkMode
-    ? scrolled
-      ? 'bg-[#050505]/90 border-[#ffffff1a] shadow-[0_12px_50px_rgba(6,182,212,0.15)]'
-      : 'bg-[#050505]/[0.45] border-[#ffffff1a] shadow-[0_8px_40px_rgba(0,0,0,0.5)]'
-    : scrolled
-      ? 'bg-sky-100/[0.78] border-cyan-300/60 shadow-[0_12px_46px_rgba(8,47,73,0.14)]'
-      : 'bg-sky-100/[0.58] border-cyan-200/60 shadow-[0_8px_36px_rgba(8,47,73,0.11)]'
-  
-  const textPrimary = darkMode ? 'text-white' : 'text-slate-950'
-  const textMuted = darkMode ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-950'
-  const controlClass = darkMode
-    ? 'bg-[#ffffff1a] border-[#ffffff1a] text-slate-300 hover:text-cyan-400 hover:border-cyan-500/30 hover:bg-cyan-500/10'
-    : 'bg-sky-100/70 border-cyan-200/80 text-slate-700 hover:text-cyan-700 hover:border-cyan-300/80 hover:bg-cyan-100/75'
 
   useEffect(() => {
     const onScroll = () => {
       const currentScroll = window.scrollY
-
-      setHidden(currentScroll > 140 && currentScroll > lastScroll.current)
+      setHidden(currentScroll > 150 && currentScroll > lastScroll.current)
       setScrolled(currentScroll > 50)
       lastScroll.current = currentScroll
     }
-    
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -79,30 +63,19 @@ const Navbar = () => {
   return (
     <div
       className={`
-        fixed z-50 top-4 left-0 right-0
-        flex justify-center
-        px-3 sm:px-4
-        transition-all duration-300
-        ${scrolled ? 'top-2' : 'top-4'}
+        fixed z-50 left-0 right-0 flex justify-center
+        px-4 sm:px-6 transition-all duration-500 ease-out
+        ${scrolled ? 'top-3' : 'top-5'}
       `}
     >
-      <motion.div
-        initial={{ y: -80, opacity: 0 }}
-        animate={{ 
-          y: hidden ? -120 : 0, 
-          opacity: hidden ? 0 : 1 
-        }}
-        transition={{ type: 'spring', stiffness: 260, damping: 24, delay: 0.05 }}
-        className={`
-          w-full max-w-[96%] sm:max-w-[92%] lg:max-w-[88%] xl:max-w-[78%] 2xl:max-w-[68%]
-          rounded-lg
-          backdrop-blur-2xl
-          border
-          transition-all duration-300
-          ${surfaceClass}
-        `}
+      <motion.nav
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: hidden ? -130 : 0, opacity: hidden ? 0 : 1 }}
+        transition={{ type: 'spring', stiffness: 240, damping: 26 }}
+        className="w-full max-w-6xl glass-nav rounded-2xl transition-all duration-500"
       >
-        <div className="flex items-center justify-between h-14 sm:h-16 px-4 sm:px-5">
+        <div className="flex items-center justify-between h-16 sm:h-20 px-5 sm:px-8">
+
           {/* Logo */}
           <a
             href="#hero"
@@ -111,32 +84,38 @@ const Navbar = () => {
           >
             <motion.img
               src={logoImg}
-              alt="Logo"
-              whileHover={{ scale: 1.05 }}
+              alt="Amit Patel Logo"
+              whileHover={{ scale: 1.08, rotate: 3 }}
               whileTap={{ scale: 0.95 }}
-              className="h-9 w-auto object-contain sm:h-10 transition-transform duration-300"
+              className="h-10 w-auto object-contain sm:h-12 transition-transform duration-300"
             />
           </a>
 
           {/* Desktop nav links */}
-          <ul className="hidden lg:flex items-center gap-0.5 xl:gap-1">
+          <ul className="hidden lg:flex items-center gap-0.5">
             {NAV_LINKS.map(link => (
               <li key={link.href} className="relative">
                 <a
                   href={`#${link.href}`}
                   onClick={() => setActive(link.href)}
-                  className={`relative px-3 py-1.5 rounded-lg text-sm font-medium transition-colors duration-200
+                  className={`
+                    relative px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300
                     ${active === link.href
-                      ? 'text-cyan-400'
-                      : textMuted
-                    }`}
+                      ? 'text-slate-900'
+                      : 'text-slate-500 hover:text-slate-800'
+                    }
+                  `}
                 >
                   {link.name}
                   {active === link.href && (
                     <motion.span
                       layoutId="nav-pill"
-                      className="absolute inset-0 rounded-lg bg-cyan-500/15 -z-10 border border-cyan-500/30"
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      className="absolute inset-0 rounded-xl -z-10"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(6,182,212,0.12), rgba(139,92,246,0.1))',
+                        border: '1px solid rgba(6,182,212,0.25)',
+                      }}
+                      transition={{ type: 'spring', stiffness: 360, damping: 28 }}
                     />
                   )}
                 </a>
@@ -144,11 +123,11 @@ const Navbar = () => {
             ))}
           </ul>
 
-          {/* Right controls (Social + Resume + Mobile Menu) */}
+          {/* Right controls */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            {/* Social Links (Desktop only) */}
-            <div className="hidden lg:flex items-center gap-2">
-              {SOCIAL_LINKS.map((social) => {
+
+            <div className="hidden lg:flex items-center gap-1.5">
+              {SOCIAL_LINKS.map(social => {
                 const Icon = social.icon
                 return (
                   <motion.a
@@ -157,9 +136,9 @@ const Navbar = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     title={social.label}
-                    whileHover={{ scale: 1.1 }}
+                    whileHover={{ scale: 1.15, y: -2 }}
                     whileTap={{ scale: 0.9 }}
-                    className={`w-9 h-9 flex items-center justify-center rounded-lg border transition-all duration-200 ${controlClass}`}
+                    className={`w-9 h-9 flex items-center justify-center rounded-xl border border-slate-200 bg-white/70 text-slate-500 transition-all duration-300 ${social.color}`}
                   >
                     <Icon size={16} />
                   </motion.a>
@@ -167,40 +146,40 @@ const Navbar = () => {
               })}
             </div>
 
-            {/* Resume Download Button (Desktop only) */}
+            {/* Resume button (desktop) */}
             <motion.a
               href={RESUME_URL}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.06 }}
               whileTap={{ scale: 0.95 }}
-              className="hidden lg:flex items-center gap-1.5 px-3.5 py-2 rounded-lg
-                         bg-gradient-to-r from-cyan-500 to-blue-600
-                         text-white text-xs sm:text-sm font-semibold
-                         hover:shadow-[0_0_20px_rgba(6,182,212,0.5)]
+              className="hidden lg:flex items-center gap-2 px-4 py-2.5 rounded-xl
+                         bg-gradient-to-r from-cyan-500 to-violet-600
+                         text-white text-sm font-bold shadow-glow-cyan
+                         hover:shadow-[0_6px_28px_rgba(6,182,212,0.5)]
                          transition-all duration-300 shrink-0"
             >
-              <Download size={16} />
-              <span className="hidden sm:inline">Resume</span>
+              <Download size={15} />
+              <span>Resume</span>
             </motion.a>
 
-            {/* Mobile Menu Toggle */}
+            {/* Mobile menu toggle */}
             <motion.button
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.06 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => setIsOpen(o => !o)}
               aria-label="Toggle menu"
-              className={`lg:hidden w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg border transition-colors duration-200 ${controlClass}`}
+              className="lg:hidden w-10 h-10 flex items-center justify-center rounded-xl border border-cyan-200 bg-cyan-50 text-slate-600 hover:text-cyan-700 hover:bg-cyan-100 transition-all duration-300"
             >
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={isOpen ? 'x' : 'menu'}
-                  initial={{ rotate: -80, opacity: 0 }}
-                  animate={{ rotate: 0,   opacity: 1 }}
-                  exit={{    rotate:  80, opacity: 0 }}
-                  transition={{ duration: 0.17 }}
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.18 }}
                 >
-                  {isOpen ? <X size={17} /> : <Menu size={17} />}
+                  {isOpen ? <X size={18} /> : <Menu size={18} />}
                 </motion.div>
               </AnimatePresence>
             </motion.button>
@@ -213,32 +192,35 @@ const Navbar = () => {
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
-              exit={{    opacity: 0, height: 0 }}
-              transition={{ duration: 0.22, ease: 'easeInOut' }}
-              className="lg:hidden overflow-hidden border-t border-[#ffffff0a]"
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.28, ease: 'easeInOut' }}
+              className="lg:hidden overflow-hidden border-t border-cyan-100"
             >
-              <ul className="flex flex-col gap-1 px-2 py-3">
+              <ul className="flex flex-col gap-1 px-3 py-4">
                 {NAV_LINKS.map((link, i) => (
                   <motion.li
                     key={link.href}
-                    initial={{ opacity: 0, x: -14 }}
+                    initial={{ opacity: 0, x: -18 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.04 }}
                   >
                     <a
                       href={`#${link.href}`}
                       onClick={() => { setActive(link.href); setIsOpen(false) }}
-                      className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium
-                                  transition-all duration-200
+                      className={`
+                        flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold
+                        transition-all duration-250
                         ${active === link.href
-                          ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30'
-                          : darkMode
-                            ? 'text-slate-300 hover:bg-[#ffffff0a] hover:text-white'
-                            : 'text-slate-700 hover:bg-cyan-50/80 hover:text-slate-950'
-                        }`}
+                          ? 'text-cyan-700 border border-cyan-200'
+                          : 'text-slate-600 hover:bg-cyan-50 hover:text-slate-900'
+                        }
+                      `}
+                      style={active === link.href ? {
+                        background: 'linear-gradient(135deg, rgba(6,182,212,0.1), rgba(139,92,246,0.08))',
+                      } : {}}
                     >
                       {active === link.href && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0 shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 shrink-0 shadow-[0_0_8px_rgba(6,182,212,0.9)]" />
                       )}
                       {link.name}
                     </a>
@@ -246,9 +228,8 @@ const Navbar = () => {
                 ))}
               </ul>
 
-              {/* Mobile Social & Resume */}
-              <div className="px-2 py-3 border-t border-[#ffffff0a] space-y-2">
-                {/* Social Links */}
+              {/* Mobile socials & resume */}
+              <div className="px-3 py-4 border-t border-cyan-100 space-y-3">
                 <div className="flex items-center gap-2 justify-center">
                   {SOCIAL_LINKS.map((social, i) => {
                     const Icon = social.icon
@@ -259,43 +240,40 @@ const Navbar = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         title={social.label}
-                        initial={{ opacity: 0, y: 10 }}
+                        initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.05 + 0.2 }}
+                        transition={{ delay: i * 0.05 + 0.18 }}
                         whileHover={{ scale: 1.1 }}
-                        className={`w-10 h-10 flex items-center justify-center rounded-lg border transition-all duration-200 ${controlClass}`}
+                        className="w-10 h-10 flex items-center justify-center rounded-xl border border-cyan-200 bg-cyan-50 text-slate-600 hover:text-cyan-700 hover:bg-cyan-100 transition-all duration-300"
                       >
-                        <Icon size={18} />
+                        <Icon size={17} />
                       </motion.a>
                     )
                   })}
                 </div>
-
-                {/* Resume Button */}
                 <motion.a
                   href={RESUME_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setIsOpen(false)}
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.35 }}
-                  className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg
-                             bg-gradient-to-r from-cyan-500 to-blue-600
-                             text-white text-sm font-semibold
-                             hover:shadow-[0_0_20px_rgba(6,182,212,0.5)]
+                  transition={{ delay: 0.32 }}
+                  className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl
+                             bg-gradient-to-r from-cyan-500 to-violet-600
+                             text-white text-sm font-bold shadow-glow-cyan
                              transition-all duration-300"
                 >
-                  <Download size={16} />
+                  <Download size={15} />
                   Download Resume
                 </motion.a>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.div>
+      </motion.nav>
     </div>
-  );
+  )
 }
 
-export default Navbar;
+export default Navbar

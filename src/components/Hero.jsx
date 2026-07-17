@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { Sparkles, ArrowRight, MessageSquare, Check } from 'lucide-react'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { Sparkles, ArrowRight, MessageSquare, Check, Code2, Cpu, Globe } from 'lucide-react'
 import { useTypewriter } from '../hooks/useTypewriter'
 import profileImg from '../assets/profile.jpeg'
 
@@ -9,225 +9,290 @@ const ROLES = [
   'AI Solutions Architect',
   'Full Stack Developer',
   'Cloud & DevOps Engineer',
-  'Startup Consultant'
-]
-
-const FLOATING_PILLS = [
-  { name: 'Artificial Intelligence', pos: 'top-20 left-[8%]' },
-  { name: 'Next.js / React',       pos: 'top-32 right-[8%]' },
-  { name: 'Cloud Serverless',      pos: 'bottom-28 left-[10%]' },
-  { name: 'DevOps / AWS',          pos: 'bottom-20 right-[12%]' },
-  { name: 'MongoDB',               pos: 'top-[45%] left-[5%]' },
-  { name: 'Cyber Security',        pos: 'top-[48%] right-[5%]' },
-  { name: 'Automation',            pos: 'bottom-36 right-[24%]' }
+  'Startup Consultant',
 ]
 
 const TRUST_POINTS = [
   'Trusted by Startups',
   'Open to Global Partnerships',
   'Building Scalable Technology',
-  'Long-Term Collaboration'
+  'Long-Term Collaboration',
 ]
 
 const STATS = [
-  { value: '25+',  label: 'Projects Delivered', color: 'from-blue-500 to-indigo-600' },
-  { value: '10+',  label: 'Business Clients',   color: 'from-indigo-500 to-violet-600' },
-  { value: 'AI',   label: 'Solutions Deployed', color: 'from-emerald-500 to-teal-600' },
-  { value: '24/7', label: 'Technical Support', color: 'from-amber-500 to-orange-600' }
+  { value: '25+',  label: 'Projects',   color: 'from-cyan-500 to-blue-600',    bg: 'bg-cyan-50',    border: 'border-cyan-200' },
+  { value: '10+',  label: 'Clients',    color: 'from-violet-500 to-fuchsia-600', bg: 'bg-violet-50', border: 'border-violet-200' },
+  { value: 'AI',   label: 'Solutions',  color: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-50', border: 'border-emerald-200' },
+  { value: '24/7', label: 'Support',    color: 'from-amber-500 to-orange-600', bg: 'bg-amber-50',   border: 'border-amber-200' },
+]
+
+const SERVICES = [
+  { icon: Code2,   label: 'Web Dev',  color: 'text-cyan-600',   bg: 'bg-cyan-100' },
+  { icon: Cpu,     label: 'AI/ML',    color: 'text-violet-600', bg: 'bg-violet-100' },
+  { icon: Globe,   label: 'Cloud',    color: 'text-emerald-600', bg: 'bg-emerald-100' },
 ]
 
 const Hero = () => {
   const typedRole = useTypewriter(ROLES, 100)
-
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    e.currentTarget.style.setProperty('--mouse-x', `${x}px`)
-    e.currentTarget.style.setProperty('--mouse-y', `${y}px`)
-  }
+  const containerRef = useRef(null)
+  const { scrollY } = useScroll()
+  const y       = useTransform(scrollY, [0, 500], [0, 120])
+  const opacity = useTransform(scrollY, [0, 380], [1, 0])
 
   return (
     <section
       id="hero"
-      className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-transparent px-4 pb-20 pt-28 sm:pt-32"
+      ref={containerRef}
+      className="relative min-h-[100svh] flex items-center justify-center overflow-hidden pt-24 pb-20 px-4"
     >
-      {/* ── Background Data Grid Lines ── */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="hero-mood-overlay absolute inset-0" />
-        <div className="hero-data-grid absolute inset-0 opacity-40 dark:opacity-75" />
-        <motion.div
-          aria-hidden="true"
-          className="hero-scanline absolute left-0 right-0 top-0 h-24"
-          animate={{ y: ['-20%', '118%'] }}
-          transition={{ duration: 7.5, repeat: Infinity, ease: 'linear' }}
-        />
+      {/* Colorful hero background blobs */}
+      <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
+        <div className="absolute top-16 left-6 w-80 h-80 bg-cyan-400/25 rounded-full blur-3xl" />
+        <div className="absolute bottom-16 right-6 w-96 h-96 bg-violet-400/22 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-fuchsia-300/12 rounded-full blur-3xl" />
+        <div className="absolute top-36 right-1/4 w-60 h-60 bg-emerald-400/18 rounded-full blur-3xl" />
+        <div className="absolute bottom-36 left-1/4 w-72 h-72 bg-amber-400/15 rounded-full blur-3xl" />
       </div>
 
-      {/* ── Floating Tech Pills ── */}
-      <div className="absolute inset-0 z-0 pointer-events-none hidden lg:block">
-        {FLOATING_PILLS.map((pill, index) => (
-          <motion.span
-            key={pill.name}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ 
-              opacity: [0.3, 0.65, 0.3], 
-              y: [0, -12, 0] 
-            }}
-            transition={{ 
-              duration: 5.5 + index, 
-              repeat: Infinity, 
-              delay: index * 0.4, 
-              ease: 'easeInOut' 
-            }}
-            className={`absolute ${pill.pos} px-3 py-1.5 text-xs font-semibold rounded-full border border-indigo-200/60 dark:border-indigo-400/10 bg-white/40 dark:bg-white/[0.04] text-indigo-500/80 dark:text-indigo-300/70 shadow-[0_8px_30px_rgba(79,70,229,0.06)] dark:shadow-[0_10px_40px_rgba(0,0,0,0.2)] backdrop-blur-md`}
-          >
-            {pill.name}
-          </motion.span>
-        ))}
-      </div>
+      <motion.div
+        style={{ y, opacity }}
+        className="relative z-10 mx-auto w-full max-w-7xl"
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center w-full">
-          
-          {/* ── Left Column: Company Value Proposition & Copy ── */}
-          <div className="lg:col-span-7 flex flex-col items-start text-left space-y-7 order-2 lg:order-1">
-            
-            {/* Top Partnership Badge */}
+          {/* ── Left Column ── */}
+          <div className="lg:col-span-7 flex flex-col items-start text-left space-y-7">
+
+            {/* Badge */}
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-indigo-500/20 bg-indigo-500/5 text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase tracking-wider font-outfit shadow-sm"
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="hero-badge inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider"
             >
-              <Sparkles size={13} className="text-indigo-500 dark:text-indigo-400 animate-pulse" />
-              <span>🚀 Technology Partner for Startups & Businesses</span>
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+              >
+                <Sparkles size={14} className="text-cyan-600" />
+              </motion.div>
+              <span className="bg-gradient-to-r from-cyan-600 via-violet-600 to-fuchsia-600 bg-clip-text text-transparent">
+                Technology Partner for Startups & Businesses
+              </span>
             </motion.div>
 
-            {/* Title & Organization Subhead */}
-            <div className="space-y-3">
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.1 }}
-                className="font-outfit text-5xl sm:text-6xl md:text-7xl font-black text-slate-900 dark:text-white leading-[0.95] tracking-tight"
-              >
-                AMIT PATEL
-              </motion.h1>
-              
-              <motion.p 
+            {/* Headline */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="space-y-3"
+            >
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-slate-900 leading-[0.9] tracking-tight">
+                AMIT{' '}
+                <span className="gradient-text">PATEL</span>
+              </h1>
+
+              <motion.p
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-lg sm:text-xl font-bold font-outfit bg-gradient-to-r from-blue-500 via-indigo-500 to-violet-600 bg-clip-text text-transparent"
+                className="text-xl sm:text-2xl font-bold font-outfit text-slate-600"
               >
-                Founder & CEO • Amit Solution Hub
+                Founder & CEO &bull; Amit Solution Hub
               </motion.p>
 
-              {/* Animated Roles Typewriter */}
-              <div className="min-h-9 text-base font-bold text-slate-600 dark:text-slate-300 sm:text-lg md:text-xl font-mono pt-1">
-                <span className="text-indigo-500 font-semibold mr-1">&lt;</span>
-                {typedRole}
-                <span className="animate-pulse text-violet-500 font-bold">_</span>
-                <span className="text-indigo-500 font-semibold ml-1">&gt;</span>
-              </div>
-            </div>
+              {/* Typewriter */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="flex items-center gap-2 text-base sm:text-lg font-mono text-slate-500 pt-1"
+              >
+                <span className="text-cyan-500 font-bold">&lt;</span>
+                <span className="text-violet-600 font-semibold">{typedRole}</span>
+                <motion.span
+                  animate={{ opacity: [1, 0, 1] }}
+                  transition={{ duration: 0.9, repeat: Infinity, ease: 'easeInOut' }}
+                  className="text-cyan-500 font-bold"
+                >
+                  _
+                </motion.span>
+                <span className="text-cyan-500 font-bold">&gt;</span>
+              </motion.div>
+            </motion.div>
 
-            {/* B2B Agency Description */}
+            {/* Description */}
             <motion.p
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              className="max-w-xl text-slate-500 dark:text-slate-400 text-sm sm:text-[15px] leading-relaxed font-medium space-y-3"
+              transition={{ duration: 0.7, delay: 0.4 }}
+              className="max-w-xl text-slate-600 text-sm sm:text-[15px] leading-relaxed"
             >
-              I founded Amit Solution Hub with a vision to help startups, businesses, and organizations transform ideas into scalable digital products.
-              <br className="my-2 block" />
-              We specialize in AI-powered applications, custom software, web platforms, cloud infrastructure, automation, and digital transformation. Our focus is on building long-term technology partnerships that drive innovation, efficiency, and business growth.
+              I founded Amit Solution Hub to help startups, businesses & organizations transform ideas into
+              scalable digital products — AI apps, web platforms, cloud infrastructure, automation & digital transformation.
             </motion.p>
+
+            {/* Service chips */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.45 }}
+              className="flex items-center gap-2 flex-wrap"
+            >
+              {SERVICES.map((s, i) => {
+                const Icon = s.icon
+                return (
+                  <motion.div
+                    key={s.label}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.5 + i * 0.08 }}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg ${s.bg} border border-white/60 text-xs font-semibold ${s.color}`}
+                  >
+                    <Icon size={13} />
+                    {s.label}
+                  </motion.div>
+                )
+              })}
+            </motion.div>
 
             {/* CTAs */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.4 }}
-              className="flex flex-wrap items-center gap-3.5 pt-2"
+              transition={{ duration: 0.7, delay: 0.5 }}
+              className="flex flex-wrap items-center gap-4"
             >
-              <a
+              <motion.a
                 href="#contact"
-                className="btn-primary px-6.5 py-3 rounded-full text-xs sm:text-sm flex items-center gap-2 group hover:shadow-[0_4px_20px_rgba(99,102,241,0.35)] transition-all"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="btn-primary"
               >
                 <span>Partner With Us</span>
-                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a
+                <motion.div
+                  animate={{ x: [0, 4, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                  <ArrowRight size={16} />
+                </motion.div>
+              </motion.a>
+              <motion.a
                 href="#projects"
-                className="px-6.5 py-3 rounded-full text-xs sm:text-sm font-semibold border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-all flex items-center gap-2"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="btn-secondary"
               >
-                <MessageSquare size={14} />
+                <MessageSquare size={16} />
                 <span>View Projects</span>
-              </a>
+              </motion.a>
             </motion.div>
 
-            {/* Trust List */}
+            {/* Trust points */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="grid grid-cols-2 gap-x-6 gap-y-2.5 pt-4 font-outfit text-xs font-semibold text-slate-500 dark:text-slate-400"
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="grid grid-cols-2 gap-x-8 gap-y-2.5 pt-2"
             >
-              {TRUST_POINTS.map((point) => (
-                <div key={point} className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-500 dark:text-violet-400 shrink-0">
-                    <Check size={10} strokeWidth={3} />
+              {TRUST_POINTS.map((point, i) => (
+                <motion.div
+                  key={point}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.65 + i * 0.08 }}
+                  className="flex items-center gap-2.5 text-xs font-semibold text-slate-600"
+                >
+                  <div className="w-5 h-5 rounded-full bg-gradient-to-br from-cyan-500 to-violet-600 flex items-center justify-center shrink-0">
+                    <Check size={11} strokeWidth={3} className="text-white" />
                   </div>
-                  <span>{point}</span>
-                </div>
+                  {point}
+                </motion.div>
               ))}
             </motion.div>
-
           </div>
 
-          {/* ── Right Column: CEO Profile Image & Statistics Panel ── */}
-          <div className="lg:col-span-5 flex justify-center w-full order-1 lg:order-2">
+          {/* ── Right Column — Profile Card ── */}
+          <div className="lg:col-span-5 flex justify-center w-full">
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              onMouseMove={handleMouseMove}
-              className="bento-card w-full max-w-[340px] lg:max-w-none rounded-3xl p-6 flex flex-col items-center justify-between bg-white/40 dark:bg-[#08080c]/85 relative overflow-hidden select-none group text-center"
+              initial={{ opacity: 0, scale: 0.88, rotateY: -12 }}
+              animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+              transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="relative w-full max-w-[400px]"
             >
-              {/* Profile Avatar with Halo Ring */}
-              <div className="relative group my-4">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-violet-600 blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
-                <motion.div 
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                  className="relative h-28 w-28 md:h-32 md:w-32 rounded-full p-[2px] bg-gradient-to-tr from-blue-500 via-indigo-500 to-violet-600 shadow-[0_8px_30px_rgba(99,102,241,0.25)]"
-                >
-                  <div className="w-full h-full rounded-full overflow-hidden border-4 border-white dark:border-[#050508] bg-[#050508]">
-                    <img src={profileImg} alt="Amit Patel" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div className="glass-card p-8 flex flex-col items-center text-center space-y-6">
+
+                {/* Avatar ring */}
+                <div className="relative">
+                  <motion.div
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
+                    className="relative h-32 w-32 sm:h-36 sm:w-36 rounded-full p-[3px] shadow-glow-cyan"
+                    style={{
+                      background: 'linear-gradient(135deg, #06b6d4, #8b5cf6, #d946ef)',
+                    }}
+                  >
+                    <div className="w-full h-full rounded-full overflow-hidden border-4 border-white">
+                      <img src={profileImg} alt="Amit Patel" className="w-full h-full object-cover" />
+                    </div>
+                  </motion.div>
+
+                  {/* Sparkle badge */}
+                  <motion.div
+                    animate={{ scale: [1, 1.15, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="absolute -bottom-1 -right-1 w-9 h-9 rounded-full flex items-center justify-center border-2 border-white shadow-lg"
+                    style={{ background: 'linear-gradient(135deg, #06b6d4, #8b5cf6)' }}
+                  >
+                    <Sparkles size={15} className="text-white" />
+                  </motion.div>
+                </div>
+
+                {/* Name */}
+                <div className="space-y-1.5">
+                  <h3 className="text-2xl font-bold text-slate-900 font-outfit">Amit Patel</h3>
+                  <p className="text-sm text-slate-500 font-medium">Founder & CEO</p>
+                  <div className="flex items-center justify-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+                    <span className="text-xs text-emerald-600 font-semibold">Available for projects</span>
                   </div>
-                </motion.div>
+                </div>
+
+                {/* Stats grid */}
+                <div className="grid grid-cols-2 gap-3 w-full">
+                  {STATS.map((stat, i) => (
+                    <motion.div
+                      key={stat.label}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.65 + i * 0.08 }}
+                      whileHover={{ scale: 1.06 }}
+                      className={`p-3 rounded-xl ${stat.bg} border ${stat.border} text-center`}
+                    >
+                      <div className={`text-xl font-black bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
+                        {stat.value}
+                      </div>
+                      <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mt-0.5">
+                        {stat.label}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
               </div>
 
-              {/* Statistics Grid */}
-              <div className="w-full grid grid-cols-2 gap-4 border-t border-slate-200/60 dark:border-white/10 pt-6 mt-4">
-                {STATS.map((stat) => (
-                  <div key={stat.label} className="text-left flex flex-col p-3 rounded-2xl bg-slate-100/50 dark:bg-white/[0.02] border border-slate-200/50 dark:border-white/5 shadow-inner">
-                    <span className={`text-xl md:text-2xl font-black bg-gradient-to-r ${stat.color} bg-clip-text text-transparent font-outfit`}>
-                      {stat.value}
-                    </span>
-                    <span className="text-[9.5px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mt-0.5">
-                      {stat.label}
-                    </span>
-                  </div>
-                ))}
-              </div>
+              {/* Decorative outer glow */}
+              <div
+                className="absolute -inset-5 rounded-3xl blur-3xl -z-10 opacity-60"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(6,182,212,0.2), rgba(139,92,246,0.18), rgba(217,70,239,0.15))',
+                }}
+              />
             </motion.div>
           </div>
 
         </div>
-      </div>
+      </motion.div>
     </section>
   )
 }

@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { MapPin, Sparkles, Terminal, Github, Linkedin, Mail, ArrowUpRight } from 'lucide-react'
+import { MapPin, Sparkles, Github, Linkedin, Mail, ArrowUpRight, Terminal, Zap } from 'lucide-react'
 
 const BentoGrid = () => {
-  // Cursor coordinate tracker hook for magnetic card glow
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect()
     const x = e.clientX - rect.left
@@ -12,11 +11,10 @@ const BentoGrid = () => {
     e.currentTarget.style.setProperty('--mouse-y', `${y}px`)
   }
 
-  // Interactive Developer Terminal State
-  const [terminalInput, setTerminalInput] = useState('')
+  const [terminalInput, setTerminalInput]   = useState('')
   const [terminalHistory, setTerminalHistory] = useState([
-    { text: 'Welcome to Amit\'s Portfolio OS v1.0!', type: 'welcome' },
-    { text: 'Type "help" to see all available commands.', type: 'help' }
+    { text: "Welcome to Amit's Portfolio OS v2.0!", type: 'welcome' },
+    { text: 'Type "help" to see all commands.', type: 'hint' },
   ])
   const terminalEndRef = useRef(null)
 
@@ -31,159 +29,239 @@ const BentoGrid = () => {
 
     let response = ''
     if (cmd === 'help') {
-      response = 'Commands:\n  about    - Founder bio\n  skills   - Core skills list\n  services - Core services list\n  clear    - Clear screen'
+      response = 'Commands:\n  about    – Founder bio\n  skills   – Core skills list\n  services – Service offerings\n  contact  – Get in touch\n  clear    – Clear screen'
     } else if (cmd === 'about') {
-      response = 'Founder & CEO of Amit Solution Hub. Building AI-powered applications, modern web platforms, cloud infrastructure and digital products.'
+      response = 'Founder & CEO of Amit Solution Hub. Building AI-powered apps, modern web platforms, cloud infra, and digital products.'
     } else if (cmd === 'skills') {
-      response = 'React • Next.js • Node.js • Express • MongoDB • AI • Cloud • DevOps • Cyber Security'
+      response = 'React • Next.js • Node.js • MongoDB • Express • PHP • Tailwind • Figma • AI Integration'
     } else if (cmd === 'services') {
-      response = 'Web Development • AI Solutions • Cloud Services • UI/UX • Digital Marketing'
+      response = 'Web Development • AI Solutions • Cloud Services • UI/UX Design • PC Repair • Video Editing'
+    } else if (cmd === 'contact') {
+      response = 'Email: amitpatel07029@gmail.com\nPhone: +91 78742 48481\nLinkedIn: linkedin.com/in/amit-patel01/'
     } else if (cmd === 'clear') {
       setTerminalHistory([])
       setTerminalInput('')
       return
     } else {
-      response = `Unknown command: "${cmd}". Type "help".`
+      response = `Unknown command: "${cmd}". Type "help" for a list.`
     }
 
     setTerminalHistory(prev => [
       ...prev,
       { text: `amit@portfolio:~$ ${terminalInput}`, type: 'input' },
-      { text: response, type: 'output' }
+      { text: response, type: 'output' },
     ])
     setTerminalInput('')
   }
 
   return (
     <section id="about" className="section-container relative z-10">
-      <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-3 gap-4 md:h-[550px]">
-        
-        {/* About Me - Large Card (Row 1-2, Col 1-2) */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+      <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-3 gap-4 md:h-[620px]">
+
+        {/* ── About Me — Large Card ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6 }}
           onMouseMove={handleMouseMove}
-          className="bento-card md:col-span-2 md:row-span-2 p-8 flex flex-col justify-between"
+          className="glass-card bento-card md:col-span-2 md:row-span-2 p-8 flex flex-col justify-between card-shine"
         >
-          <div className="space-y-4">
-            <h2 className="text-3xl font-bold font-outfit text-white">About Amit Patel</h2>
-            <p className="text-slate-400 leading-relaxed text-sm">
-              I&apos;m Amit Patel, Founder & CEO of Amit Solution Hub and a B.Tech IT student. I build AI-powered applications, scalable web platforms, cloud infrastructure, and custom software for startups, businesses, and organizations. My mission is to create innovative, secure, and scalable digital solutions that solve real-world problems.
+          {/* Color accent bar */}
+          <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-500" />
+
+          <div className="space-y-5 relative z-10 mt-2">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[10px] font-extrabold tracking-widest uppercase bg-gradient-to-r from-cyan-500 to-violet-600 text-white mb-3">
+                About Me
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900">
+                About <span className="gradient-text-static">Amit Patel</span>
+              </h2>
+            </motion.div>
+
+            <p className="text-slate-600 leading-relaxed text-sm sm:text-[15px]">
+              I'm Amit Patel, Founder & CEO of <strong className="text-slate-800">Amit Solution Hub</strong> and a
+              B.Tech IT student at Parul University. I build AI-powered applications, scalable web platforms,
+              cloud infrastructure, and custom software for startups, businesses, and organizations.
+              My mission is to create innovative, secure, and high-performance digital solutions that
+              create real business impact.
             </p>
+
+            {/* Highlight boxes */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+              {[
+                { label: 'Web Development', color: 'from-cyan-500 to-blue-600', bg: 'bg-cyan-50', border: 'border-cyan-200', dot: 'bg-cyan-500' },
+                { label: 'AI Integration', color: 'from-violet-500 to-fuchsia-600', bg: 'bg-violet-50', border: 'border-violet-200', dot: 'bg-violet-500' },
+                { label: 'Cloud & DevOps', color: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-50', border: 'border-emerald-200', dot: 'bg-emerald-500' },
+              ].map((item, i) => (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08 }}
+                  whileHover={{ scale: 1.04 }}
+                  className={`flex items-center gap-2 px-3 py-2.5 rounded-xl ${item.bg} border ${item.border}`}
+                >
+                  <span className={`w-2 h-2 rounded-full ${item.dot} shrink-0`} />
+                  <span className="text-xs font-semibold text-slate-700">{item.label}</span>
+                </motion.div>
+              ))}
+            </div>
           </div>
-          <div className="mt-8 flex flex-wrap gap-2.5">
-            <span className="pill bg-cyan-500/10 text-cyan-400 border-cyan-500/20">Founder & CEO</span>
-            <span className="pill bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/20">B.Tech Information Technology</span>
-            <span className="pill bg-violet-500/10 text-violet-400 border-violet-500/20">Tech Agency</span>
+
+          <div className="flex flex-wrap gap-2.5 mt-6 relative z-10">
+            {['Founder & CEO', 'B.Tech Information Technology', 'Tech Agency Owner'].map((tag, i) => (
+              <motion.span
+                key={tag}
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                whileHover={{ scale: 1.06, y: -2 }}
+                className="px-4 py-2 text-xs font-semibold rounded-full border border-cyan-200 bg-white/80 text-cyan-700 shadow-sm"
+              >
+                {tag}
+              </motion.span>
+            ))}
           </div>
         </motion.div>
 
-        {/* Location Card (Row 1, Col 3) */}
-        <motion.div 
+        {/* ── Location Card ── */}
+        <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
           onMouseMove={handleMouseMove}
-          className="bento-card md:col-span-1 md:row-span-1 p-6 flex flex-col items-center justify-center text-center group"
+          className="glass-card bento-card md:col-span-1 md:row-span-1 p-6 flex flex-col items-center justify-center text-center card-shine"
         >
-          <div className="w-12 h-12 rounded-full bg-cyan-500/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-            <MapPin className="text-cyan-400" size={24} />
+          <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl bg-gradient-to-r from-emerald-400 to-teal-500" />
+          <motion.div
+            className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center mb-4 shadow-lg"
+            whileHover={{ scale: 1.12, rotate: 8 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 12 }}
+          >
+            <MapPin className="text-white" size={22} />
+          </motion.div>
+          <p className="text-slate-900 font-bold text-sm">Gujarat, India</p>
+          <p className="text-slate-500 text-xs mt-1">Serving Clients Worldwide 🌍</p>
+          <div className="flex items-center gap-1.5 mt-3">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+            <span className="text-[11px] text-emerald-600 font-semibold">Open to Remote Work</span>
           </div>
-          <p className="text-white font-semibold text-sm">Gujarat, India</p>
-          <p className="text-slate-500 text-xs mt-1">Serving Clients Worldwide</p>
         </motion.div>
 
-        {/* Connect / Social Card (Row 2, Col 3) */}
-        <motion.div 
+        {/* ── Connect Card ── */}
+        <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
           onMouseMove={handleMouseMove}
-          className="bento-card md:col-span-1 md:row-span-1 p-6 flex flex-col justify-between group"
+          className="glass-card bento-card md:col-span-1 md:row-span-1 p-6 flex flex-col justify-between card-shine"
         >
+          <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl bg-gradient-to-r from-violet-500 to-fuchsia-600" />
           <div className="flex items-center justify-between w-full">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Connect</span>
-            <ArrowUpRight size={16} className="text-slate-400 group-hover:text-cyan-400 transition-colors" />
+            <span className="text-xs font-extrabold text-slate-500 uppercase tracking-wider">Connect</span>
+            <motion.div
+              animate={{ rotate: [0, 18, -18, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <ArrowUpRight size={15} className="text-violet-500" />
+            </motion.div>
           </div>
-          <div className="flex justify-center items-center gap-3.5 my-auto">
-            <a 
-              href="https://github.com/amit-patel01" 
-              target="_blank" 
-              rel="noreferrer"
-              className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-cyan-500/10 hover:border-cyan-500/30 transition-all duration-300 hover:scale-110"
-              aria-label="GitHub"
-            >
-              <Github size={18} />
-            </a>
-            <a 
-              href="https://www.linkedin.com/in/amit-patel01/" 
-              target="_blank" 
-              rel="noreferrer"
-              className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-violet-500/10 hover:border-violet-500/30 transition-all duration-300 hover:scale-110"
-              aria-label="LinkedIn"
-            >
-              <Linkedin size={18} />
-            </a>
-            <a 
-              href="mailto:amitpatel07029@gmail.com" 
-              className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-fuchsia-500/10 hover:border-fuchsia-500/30 transition-all duration-300 hover:scale-110"
-              aria-label="Email"
-            >
-              <Mail size={18} />
-            </a>
+          <div className="flex justify-center items-center gap-4 my-auto py-2">
+            {[
+              { Icon: Github,   href: 'https://github.com/amit-patel01',            bg: 'bg-slate-900', hover: 'hover:bg-slate-700', label: 'GitHub' },
+              { Icon: Linkedin, href: 'https://www.linkedin.com/in/amit-patel01/', bg: 'bg-blue-600',  hover: 'hover:bg-blue-700',  label: 'LinkedIn' },
+              { Icon: Mail,     href: 'mailto:amitpatel07029@gmail.com',           bg: 'bg-gradient-to-br from-cyan-500 to-violet-600', hover: '', label: 'Email' },
+            ].map(({ Icon, href, bg, hover, label }) => (
+              <motion.a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+                title={label}
+                whileHover={{ scale: 1.18, y: -4 }}
+                whileTap={{ scale: 0.9 }}
+                className={`w-11 h-11 rounded-xl ${bg} ${hover} flex items-center justify-center text-white transition-all duration-300 shadow-md`}
+              >
+                <Icon size={17} />
+              </motion.a>
+            ))}
           </div>
-          <span className="text-[10px] text-slate-500 text-center font-medium">Let's Build Something Amazing Together.</span>
+          <span className="text-[10px] text-slate-500 text-center font-medium">
+            Let&apos;s Build Something Amazing Together!
+          </span>
         </motion.div>
 
-        {/* Interactive Developer Terminal (Row 3, Col 1-2) */}
-        <motion.div 
+        {/* ── Terminal Card ── */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          onMouseMove={handleMouseMove}
-          className="bento-card md:col-span-2 md:row-span-1 p-5 flex flex-col justify-between font-mono text-[10px] bg-[#09090d]/90 border border-white/5 relative overflow-hidden select-text group text-slate-300"
+          className="glass-card md:col-span-2 md:row-span-1 p-5 flex flex-col justify-between font-mono text-[10.5px] sm:text-xs relative overflow-hidden"
         >
-          {/* Mock Window Controls */}
-          <div className="flex items-center justify-between border-b border-white/10 pb-2 mb-2 w-full z-10 shrink-0">
+          <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl bg-gradient-to-r from-amber-400 via-orange-400 to-red-400" />
+
+          {/* Terminal title bar */}
+          <div className="flex items-center justify-between border-b border-slate-200 pb-2 mb-2 w-full shrink-0 mt-1">
             <div className="flex gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
-              <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
-              <span className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
+              {[
+                { bg: 'bg-red-400',   shadow: 'shadow-[0_0_6px_rgba(239,68,68,0.6)]' },
+                { bg: 'bg-amber-400', shadow: 'shadow-[0_0_6px_rgba(245,158,11,0.6)]' },
+                { bg: 'bg-emerald-400', shadow: 'shadow-[0_0_6px_rgba(52,211,153,0.6)]' },
+              ].map(({ bg, shadow }, i) => (
+                <motion.span
+                  key={i}
+                  className={`w-2.5 h-2.5 rounded-full ${bg} ${shadow}`}
+                  whileHover={{ scale: 1.3 }}
+                />
+              ))}
             </div>
-            <span className="text-[9px] text-slate-500 uppercase tracking-widest font-sans font-semibold">Bash</span>
+            <div className="flex items-center gap-1.5">
+              <Terminal size={10} className="text-slate-400" />
+              <span className="text-[9px] text-slate-400 uppercase tracking-widest font-sans font-bold">Bash Terminal</span>
+            </div>
           </div>
 
-          {/* Terminal History */}
-          <div className="flex-1 overflow-y-auto space-y-1.5 pr-1.5 scrollbar-thin select-text text-left max-h-[110px]">
+          {/* Output */}
+          <div className="flex-1 overflow-y-auto space-y-1.5 pr-2 select-text text-left max-h-[110px]">
             {terminalHistory.map((item, idx) => (
-              <div 
-                key={idx} 
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, x: -8 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: idx * 0.03 }}
                 className={`whitespace-pre-wrap leading-relaxed ${
-                  item.type === 'welcome' ? 'text-violet-400 font-bold' : 
-                  item.type === 'help' ? 'text-amber-400' : 
-                  item.type === 'input' ? 'text-cyan-400 font-semibold' : 'text-slate-300'
+                  item.type === 'welcome' ? 'text-violet-600 font-bold' :
+                  item.type === 'hint'    ? 'text-amber-600' :
+                  item.type === 'input'   ? 'text-cyan-600 font-semibold' :
+                                           'text-slate-600'
                 }`}
               >
                 {item.text}
-              </div>
+              </motion.div>
             ))}
             <div ref={terminalEndRef} />
           </div>
 
-          {/* Terminal Input Form */}
-          <form onSubmit={handleCommandSubmit} className="flex items-center gap-1 border-t border-white/5 pt-2 mt-2 w-full z-10 shrink-0">
-            <span className="text-cyan-400 font-bold shrink-0">amit@portfolio:~$</span>
-            <input 
+          {/* Input */}
+          <form onSubmit={handleCommandSubmit} className="flex items-center gap-2 border-t border-slate-200 pt-2 mt-2 w-full shrink-0">
+            <span className="text-cyan-600 font-bold shrink-0">amit@portfolio:~$</span>
+            <input
               type="text"
               value={terminalInput}
-              onChange={(e) => setTerminalInput(e.target.value)}
-              className="bg-transparent border-none outline-none focus:outline-none focus:ring-0 p-0 text-white font-mono text-[10px] w-full"
-              placeholder='Type "help"...'
+              onChange={e => setTerminalInput(e.target.value)}
+              className="bg-transparent border-none outline-none focus:outline-none p-0 text-slate-900 font-mono text-[10.5px] sm:text-xs w-full"
+              placeholder='Type "help"…'
               autoComplete="off"
               autoCorrect="off"
               autoCapitalize="off"
@@ -192,37 +270,51 @@ const BentoGrid = () => {
           </form>
         </motion.div>
 
-        {/* Highlight Card with 4 Animated Stats (Row 3, Col 3) */}
-        <motion.div 
+        {/* ── Metrics Card ── */}
+        <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
           onMouseMove={handleMouseMove}
-          className="bento-card md:col-span-1 md:row-span-1 p-5 flex flex-col justify-between overflow-hidden relative group text-left"
+          className="glass-card bento-card md:col-span-1 md:row-span-1 p-5 flex flex-col justify-between overflow-hidden relative card-shine"
         >
-          <div className="flex items-center justify-between w-full border-b border-white/5 pb-1.5 mb-2.5">
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest font-sans">Metrics</span>
-            <Sparkles className="text-cyan-400 group-hover:rotate-12 transition-transform" size={12} />
+          <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl bg-gradient-to-r from-fuchsia-500 to-pink-600" />
+
+          <div className="flex items-center justify-between w-full border-b border-slate-100 pb-2 mb-3 mt-1">
+            <span className="text-[10px] font-extrabold text-slate-500 uppercase tracking-widest">Metrics</span>
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 7, repeat: Infinity, ease: 'linear' }}
+            >
+              <Zap size={12} className="text-fuchsia-500" />
+            </motion.div>
           </div>
-          
-          <div className="grid grid-cols-2 gap-x-4 gap-y-3 flex-1 justify-center items-center">
-            <div className="flex flex-col">
-              <span className="text-base font-black text-white font-outfit bg-gradient-to-r from-cyan-400 to-indigo-400 bg-clip-text text-transparent">25+</span>
-              <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Projects</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-base font-black text-white font-outfit bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">10+</span>
-              <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Clients</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-base font-black text-white font-outfit bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">100%</span>
-              <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Commit</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-base font-black text-white font-outfit bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">24/7</span>
-              <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Support</span>
-            </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              { value: '25+',  label: 'Projects', color: 'from-cyan-500 to-blue-600',    bg: 'bg-cyan-50',    border: 'border-cyan-100' },
+              { value: '10+',  label: 'Clients',  color: 'from-violet-500 to-fuchsia-600', bg: 'bg-violet-50', border: 'border-violet-100' },
+              { value: '100%', label: 'Commit',   color: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-50', border: 'border-emerald-100' },
+              { value: '24/7', label: 'Support',  color: 'from-amber-500 to-orange-600', bg: 'bg-amber-50',   border: 'border-amber-100' },
+            ].map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                className={`flex flex-col p-2 rounded-xl ${stat.bg} border ${stat.border}`}
+                initial={{ opacity: 0, scale: 0.5 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5 + i * 0.08 }}
+                whileHover={{ scale: 1.08 }}
+              >
+                <span className={`text-base font-black bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
+                  {stat.value}
+                </span>
+                <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">
+                  {stat.label}
+                </span>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
 

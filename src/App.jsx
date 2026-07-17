@@ -1,18 +1,17 @@
 import { useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
-import { ThemeProvider, useTheme } from './context/ThemeContext'
-import { AnimatePresence } from 'framer-motion'
+import { ThemeProvider } from './context/ThemeContext'
+import { AnimatePresence, motion } from 'framer-motion'
 
-import Navbar      from './components/Navbar'
-import Hero        from './components/Hero'
-import BentoGrid   from './components/BentoGrid'
-import Journey     from './components/Journey'
-import Skills      from './components/Skills'
-import Projects    from './components/Projects'
-import Contact     from './components/Contact'
-import ScrollToTop from './components/ScrollToTop'
-// Preloader removed
+import Navbar        from './components/Navbar'
+import Hero          from './components/Hero'
+import BentoGrid     from './components/BentoGrid'
+import Journey       from './components/Journey'
+import Skills        from './components/Skills'
+import Projects      from './components/Projects'
+import Contact       from './components/Contact'
+import { ScrollToTop, ScrollProgress } from './components/ScrollToTop'
 
 const CODE_STREAMS = [
   'const app = createPortfolio();',
@@ -25,27 +24,32 @@ const CODE_STREAMS = [
   'db.projects.find({ featured: true })',
 ]
 
-const LiquidAuroraBackground = ({ mode }) => (
-  <div className="site-video-backdrop fixed inset-0 z-0 overflow-hidden pointer-events-none" data-mode={mode} aria-hidden="true">
-    {/* Liquid Morphing Blobs */}
-    <div className="blob-container absolute inset-0 overflow-hidden">
+/* ──── Liquid Aurora Background ──── */
+const LiquidAuroraBackground = () => (
+  <div
+    className="site-video-backdrop"
+    aria-hidden="true"
+  >
+    {/* SVG filter for goo effect */}
+    <svg className="hidden" xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <defs>
+        <filter id="liquid-goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="28" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 36 -12" result="goo" />
+          <feBlend in="SourceGraphic" in2="goo" />
+        </filter>
+      </defs>
+    </svg>
+
+    {/* Animated blobs */}
+    <div className="blob-container">
       <div className="blob blob-1" />
       <div className="blob blob-2" />
       <div className="blob blob-3" />
       <div className="blob blob-4" />
     </div>
 
-    {/* SVG Gooey filter for blending the blobs organically */}
-    <svg className="hidden" xmlns="http://www.w3.org/2000/svg" version="1.1">
-      <defs>
-        <filter id="liquid-goo">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="40" result="blur" />
-          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 40 -15" result="goo" />
-          <feBlend in="SourceGraphic" in2="goo" />
-        </filter>
-      </defs>
-    </svg>
-
+    {/* Overlay layers */}
     <div className="site-video-backdrop__veil" />
     <div className="site-video-backdrop__grid" />
     <div className="site-video-backdrop__scan" />
@@ -53,62 +57,80 @@ const LiquidAuroraBackground = ({ mode }) => (
   </div>
 )
 
-/* ── Portfolio (main site) ── */
+/* ──── Main Portfolio Page ──── */
 const Portfolio = () => {
-  const [loading, setLoading] = useState(false)
-  const { darkMode } = useTheme()
-  const mode = darkMode ? 'dark' : 'light'
-
   useEffect(() => {
     document.title = 'Amit Patel | Full Stack Developer'
+
+    // Always start at top on page load / reload
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual'
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
   }, [])
 
   return (
-    <>
-      <div className="site-shell relative min-h-screen overflow-x-hidden bg-[#050505] text-white transition-colors duration-500">
-        
-        <LiquidAuroraBackground mode={mode} />
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="relative min-h-screen overflow-x-hidden"
+      style={{ background: 'linear-gradient(135deg, #f0f9ff 0%, #e8f4fd 20%, #f3f0ff 45%, #fdf4ff 70%, #f0fdf4 100%)' }}
+    >
+      {/* Background system */}
+      <LiquidAuroraBackground />
 
-        <div className="site-content relative z-10">
-          <Navbar />
-          <Hero />
-          <BentoGrid />
-          <Journey />
-          <Skills />
-          <Projects />
-          <Contact />
-          <ScrollToTop />
-        </div>
-
-        {/* Floating code orbit overlay on top of all boxes */}
-        <div className="code-orbit fixed inset-0 z-20 pointer-events-none" data-mode={mode}>
-          {CODE_STREAMS.map((line, index) => (
-            <span key={line} style={{ '--i': index }}>
-              {line}
-            </span>
-          ))}
-        </div>
+      {/* Main content */}
+      <div className="relative z-10">
+        <Navbar />
+        <Hero />
+        <BentoGrid />
+        <Journey />
+        <Skills />
+        <Projects />
+        <Contact />
+        <ScrollToTop />
       </div>
-    </>
+
+      {/* Floating code lines */}
+      <div className="code-orbit" data-mode="light" aria-hidden="true">
+        {CODE_STREAMS.map((line, index) => (
+          <span key={line} style={{ '--i': index }}>
+            {line}
+          </span>
+        ))}
+      </div>
+
+      {/* Scroll progress bar */}
+      <ScrollProgress />
+    </motion.div>
   )
 }
 
-/* ── Root App with Router ── */
+/* ──── App Root ──── */
 const App = () => (
   <ThemeProvider>
     <Routes>
-      <Route path="/"      element={<Portfolio />} />
+      <Route path="/" element={<Portfolio />} />
     </Routes>
 
     <Toaster
       position="top-right"
       toastOptions={{
         style: {
-          background:    'rgba(15,15,35,0.9)',
+          background:    'rgba(255,255,255,0.95)',
           backdropFilter: 'blur(20px)',
-          border:        '1px solid rgba(255,255,255,0.1)',
-          color:         '#e2e8f0',
+          border:        '1px solid rgba(6,182,212,0.2)',
+          color:         '#0f172a',
           borderRadius:  '16px',
+          boxShadow:     '0 8px 32px rgba(6,182,212,0.12)',
+          fontFamily:    'Inter, sans-serif',
+        },
+        success: {
+          iconTheme: { primary: '#06b6d4', secondary: '#fff' },
+        },
+        error: {
+          iconTheme: { primary: '#f43f5e', secondary: '#fff' },
         },
       }}
     />

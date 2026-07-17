@@ -32,43 +32,43 @@ const SERVICES = [
     icon: Code, 
     title: 'Web Development', 
     desc: 'Building responsive, high-performance web applications and enterprise portals.',
-    color: 'from-blue-500 to-cyan-500',
-    glow: 'rgba(59,130,246,0.15)'
+    color: 'from-cyan-500 to-blue-600',
+    glow: 'rgba(6,182,212,0.15)'
   },
   { 
     icon: Sparkles, 
     title: 'AI Solutions', 
     desc: 'Integrating AI capabilities, automation agents, and NLP systems into custom code.',
-    color: 'from-purple-500 to-pink-500',
-    glow: 'rgba(168,85,247,0.15)'
+    color: 'from-violet-500 to-fuchsia-600',
+    glow: 'rgba(139,92,246,0.15)'
   },
   { 
     icon: Cloud, 
     title: 'Cloud Services', 
     desc: 'Architecting secure cloud server systems, migrations, and serverless compute.',
-    color: 'from-cyan-500 to-teal-500',
-    glow: 'rgba(6,182,212,0.15)'
+    color: 'from-emerald-500 to-teal-600',
+    glow: 'rgba(16,185,129,0.15)'
   },
   { 
     icon: Palette, 
     title: 'UI/UX Design', 
     desc: 'Designing creative mockups, wireframes, and smooth pixel-perfect interactive flows.',
-    color: 'from-fuchsia-500 to-violet-500',
+    color: 'from-fuchsia-500 to-pink-600',
     glow: 'rgba(217,70,239,0.15)'
   },
   { 
     icon: Terminal, 
     title: 'DevOps', 
     desc: 'Implementing continuous integration (CI/CD), containers, and cloud automation.',
-    color: 'from-indigo-500 to-blue-500',
+    color: 'from-indigo-500 to-blue-600',
     glow: 'rgba(99,102,241,0.15)'
   },
   { 
     icon: Lock, 
     title: 'Cyber Security', 
     desc: 'Performing vulnerability assessments, API protection, and credential encryption.',
-    color: 'from-emerald-500 to-teal-500',
-    glow: 'rgba(16,185,129,0.15)'
+    color: 'from-amber-500 to-orange-600',
+    glow: 'rgba(245,158,11,0.15)'
   },
 ]
 
@@ -80,7 +80,6 @@ const STATS = [
 ]
 
 const About = () => {
-  // Magnetic hover coordinate tracker
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect()
     const x = e.clientX - rect.left
@@ -92,7 +91,6 @@ const About = () => {
   return (
     <section id="about" className="section-container relative z-10 space-y-20">
       
-      {/* ── Heading ── */}
       <motion.div
         initial={{ opacity: 0, y: 28 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -100,39 +98,44 @@ const About = () => {
         transition={{ duration: 0.6 }}
         className="text-center space-y-4"
       >
-        <span className="pill bg-blue-500/10 text-blue-500 border-blue-500/20 uppercase tracking-widest text-xs font-semibold">
+        <motion.span
+          initial={{ scale: 0.8, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[10px] font-extrabold tracking-widest uppercase bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-glow-violet"
+        >
           About Amit Patel
-        </span>
-        <h2 className="font-black text-4xl md:text-5xl text-slate-900 dark:text-white leading-tight font-outfit">
+        </motion.span>
+        <h2 className="font-black text-4xl md:text-5xl text-slate-900 leading-tight font-outfit">
           Founder & CEO of{' '}
-          <span className="bg-gradient-to-r from-blue-500 via-indigo-500 to-violet-600 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-600 bg-clip-text text-transparent">
             Amit Solution Hub
           </span>
         </h2>
       </motion.div>
 
-      {/* ── Main Layout Grid ── */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        {/* Left Side: Summary & Highlight Tags (Col 5) */}
         <div className="lg:col-span-5 space-y-6">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="bento-card p-7 sm:p-8 flex flex-col justify-between"
+            className="glass-card p-7 sm:p-8 flex flex-col justify-between card-shine"
             onMouseMove={handleMouseMove}
+            whileHover={{ scale: 1.01 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 10 }}
           >
             <div className="space-y-4">
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white font-outfit">Brief Bio</h3>
-              <p className="text-[14px] leading-relaxed text-slate-600 dark:text-slate-400">
+              <h3 className="text-xl font-bold text-slate-900 font-outfit">Brief Bio</h3>
+              <p className="text-[14px] leading-relaxed text-slate-600">
                 I'm Amit Patel, Founder & CEO of Amit Solution Hub and a B.Tech IT student. I build AI-powered applications, scalable web platforms, cloud solutions, and custom software for startups, businesses, and organizations. My goal is to deliver innovative, secure, and high-performance digital solutions that create real business impact.
               </p>
             </div>
           </motion.div>
 
-          {/* Highlights List */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider pl-1">Key Strengths</h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
@@ -146,14 +149,20 @@ const About = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: i * 0.05 }}
                     onMouseMove={handleMouseMove}
-                    className="bento-card p-4.5 flex items-center gap-3.5"
+                    className="glass-card p-4.5 flex items-center gap-3.5 card-shine"
+                    whileHover={{ x: 4, scale: 1.02 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 10 }}
                   >
-                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500/10 to-violet-500/10 flex items-center justify-center text-blue-500 dark:text-cyan-400 shrink-0">
+                    <motion.div 
+                      className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-500/10 to-violet-500/10 flex items-center justify-center text-cyan-600 shrink-0 border border-cyan-500/10"
+                      whileHover={{ rotate: 360, scale: 1.1 }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <Icon size={16} />
-                    </div>
+                    </motion.div>
                     <div className="min-w-0">
-                      <p className="text-xs font-bold text-slate-900 dark:text-white font-outfit truncate">{h.title}</p>
-                      <p className="text-[10.5px] text-slate-500 dark:text-slate-400 truncate">{h.desc}</p>
+                      <p className="text-xs font-bold text-slate-900 font-outfit truncate">{h.title}</p>
+                      <p className="text-[10.5px] text-slate-500 truncate">{h.desc}</p>
                     </div>
                   </motion.div>
                 )
@@ -162,7 +171,6 @@ const About = () => {
           </div>
         </div>
 
-        {/* Right Side: Services Grid (Col 7) */}
         <div className="lg:col-span-7 space-y-4">
           <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider pl-1">Services Offered</h4>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -175,22 +183,25 @@ const About = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: i * 0.06 }}
-                  whileHover={{ y: -4 }}
+                  whileHover={{ y: -4, scale: 1.02 }}
                   onMouseMove={handleMouseMove}
-                  className="bento-card p-6 flex flex-col justify-between group overflow-hidden relative"
+                  className="glass-card p-6 flex flex-col justify-between group overflow-hidden relative card-shine"
                 >
-                  {/* Subtle hover background highlight */}
                   <div 
                     className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                     style={{ background: `radial-gradient(150px circle at var(--mouse-x, 0) var(--mouse-y, 0), ${s.glow}, transparent 60%)` }}
                   />
                   
                   <div className="space-y-4 relative z-10">
-                    <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${s.color} flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300`}>
+                    <motion.div 
+                      className={`w-10 h-10 rounded-xl bg-gradient-to-br ${s.color} flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                      whileHover={{ rotate: 360 }}
+                      transition={{ duration: 0.6 }}
+                    >
                       <Icon size={18} />
-                    </div>
-                    <h5 className="text-sm font-bold text-slate-900 dark:text-white font-outfit">{s.title}</h5>
-                    <p className="text-[11.5px] leading-relaxed text-slate-500 dark:text-slate-400">{s.desc}</p>
+                    </motion.div>
+                    <h5 className="text-sm font-bold text-slate-900 font-outfit">{s.title}</h5>
+                    <p className="text-[11.5px] leading-relaxed text-slate-600">{s.desc}</p>
                   </div>
                 </motion.div>
               )
@@ -200,7 +211,6 @@ const About = () => {
 
       </div>
 
-      {/* ── Statistics Section (Full Width Bottom) ── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {STATS.map((stat, i) => {
           const Icon = stat.icon
@@ -212,16 +222,22 @@ const About = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
               onMouseMove={handleMouseMove}
-              className="bento-card p-6 flex items-center gap-4 group justify-center text-center lg:text-left lg:justify-start"
+              className="glass-card p-6 flex items-center gap-4 group justify-center text-center lg:text-left lg:justify-start card-shine"
+              whileHover={{ scale: 1.05, y: -2 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 10 }}
             >
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500/10 to-violet-500/10 flex items-center justify-center text-indigo-500 dark:text-cyan-400 group-hover:scale-110 transition-transform shrink-0">
+              <motion.div 
+                className="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-violet-500/10 flex items-center justify-center text-cyan-600 group-hover:scale-110 transition-transform shrink-0 border border-cyan-500/10"
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.5 }}
+              >
                 <Icon size={20} />
-              </div>
+              </motion.div>
               <div>
-                <h4 className="text-2xl font-black bg-gradient-to-r from-blue-500 via-indigo-500 to-violet-600 bg-clip-text text-transparent font-outfit">
+                <h4 className="text-2xl font-black bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-600 bg-clip-text text-transparent font-outfit">
                   {stat.value}
                 </h4>
-                <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mt-0.5">
+                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mt-0.5">
                   {stat.label}
                 </p>
               </div>

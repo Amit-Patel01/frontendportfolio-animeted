@@ -1,40 +1,43 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import {
-  Mail, Phone, Send, Linkedin, Youtube,
-  Facebook, Instagram, Code2, BookOpen, Loader2
-} from 'lucide-react'
+import { Mail, Phone, Send, Loader2, MessageCircle } from 'lucide-react'
+import { FaLinkedinIn, FaYoutube, FaFacebook, FaInstagram, FaGithub } from 'react-icons/fa'
+import { SiGeeksforgeeks, SiLeetcode } from 'react-icons/si'
 import toast from 'react-hot-toast'
 
-// Use environment variable for backend URL, fallback to relative URL for dev
-const API_BASE = import.meta.env.VITE_API_URL || ''
-const CONTACT_ENDPOINT = `${API_BASE}/contact`
-
 const CONTACT_INFO = [
-  { icon: Mail,  label: 'amitpatel07029@gmail.com', href: 'mailto:amitpatel07029@gmail.com' },
-  { icon: Phone, label: '+91 78742 48481',           href: 'tel:+917874248481' },
+  {
+    icon: Mail,
+    label: 'amitpatel07029@gmail.com',
+    href: 'mailto:amitpatel07029@gmail.com',
+    color: 'from-cyan-500 to-blue-600',
+    bg: 'bg-cyan-50',
+    border: 'border-cyan-200',
+    iconColor: 'text-cyan-600',
+  },
+  {
+    icon: Phone,
+    label: '+91 78742 48481',
+    href: 'tel:+917874248481',
+    color: 'from-emerald-500 to-teal-600',
+    bg: 'bg-emerald-50',
+    border: 'border-emerald-200',
+    iconColor: 'text-emerald-600',
+  },
 ]
 
 const SOCIALS = [
-  { icon: Linkedin,  name: 'LinkedIn',      url: 'https://www.linkedin.com/in/amit-patel-89736b287/', color: 'hover:text-blue-600  hover:border-blue-300  dark:hover:border-blue-500/40' },
-  { icon: Youtube,   name: 'YouTube',       url: 'https://youtube.com/@amitpatel-uc7up',              color: 'hover:text-red-500   hover:border-red-300   dark:hover:border-red-500/40'  },
-  { icon: Facebook,  name: 'Facebook',      url: 'https://www.facebook.com/people/Amit-Patel/',       color: 'hover:text-blue-500  hover:border-blue-300  dark:hover:border-blue-500/40' },
-  { icon: Instagram, name: 'Instagram',     url: 'https://www.instagram.com/amiitt_4084',             color: 'hover:text-pink-500  hover:border-pink-300  dark:hover:border-pink-500/40'  },
-  { icon: Code2,     name: 'GeeksforGeeks', url: 'https://www.geeksforgeeks.org/user/amitpatel07/',   color: 'hover:text-green-500 hover:border-green-300 dark:hover:border-green-500/40' },
-  { icon: BookOpen,  name: 'LeetCode',      url: 'https://leetcode.com/u/AmitPatel4084/',             color: 'hover:text-orange-500 hover:border-orange-300 dark:hover:border-orange-500/40' },
+  { icon: FaLinkedinIn, name: 'LinkedIn',      url: 'https://www.linkedin.com/in/amit-patel-89736b287/', bg: 'bg-[#0077B5]', hover: 'hover:bg-[#005f8e]' },
+  { icon: FaYoutube,    name: 'YouTube',       url: 'https://youtube.com/@amitpatel-uc7up',              bg: 'bg-[#FF0000]', hover: 'hover:bg-[#cc0000]' },
+  { icon: FaFacebook,   name: 'Facebook',      url: 'https://www.facebook.com/people/Amit-Patel/',       bg: 'bg-[#1877F2]', hover: 'hover:bg-[#1260c4]' },
+  { icon: FaInstagram,  name: 'Instagram',     url: 'https://www.instagram.com/amiitt_4084',             bg: 'bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#F77737]', hover: '' },
+  { icon: SiGeeksforgeeks, name: 'GFG',        url: 'https://www.geeksforgeeks.org/user/amitpatel07/',   bg: 'bg-[#2F8D46]', hover: 'hover:bg-[#236b35]' },
+  { icon: SiLeetcode,   name: 'LeetCode',      url: 'https://leetcode.com/u/AmitPatel4084/',             bg: 'bg-[#FFA116]', hover: 'hover:bg-[#e08c10]' },
 ]
 
-const INPUT_CLS = `w-full px-4 py-3.5 rounded-xl text-sm font-medium
-  bg-[#ffffff05] border border-[#ffffff1a]
-  text-white
-  placeholder:text-slate-500
-  focus:outline-none focus:ring-2 focus:ring-cyan-500/50
-  focus:border-cyan-400
-  transition-all duration-200`
-
 const Contact = () => {
-  const [form,      setForm]      = useState({ name: '', email: '', message: '' })
-  const [loading,   setLoading]   = useState(false)
+  const [form,    setForm]    = useState({ name: '', email: '', message: '' })
+  const [loading, setLoading] = useState(false)
 
   const handleChange = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }))
 
@@ -42,46 +45,55 @@ const Contact = () => {
     e.preventDefault()
     setLoading(true)
     try {
-      // Mocking the backend request
       await new Promise(resolve => setTimeout(resolve, 1500))
-      toast.success('Message sent! I\'ll get back to you soon.')
+      toast.success("Message sent! I'll get back to you soon. 🚀")
       setForm({ name: '', email: '', message: '' })
     } catch {
-      toast.error('Couldn\'t send — please try again.')
+      toast.error("Couldn't send — please try again.")
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <section id="contact" className="section-container">
-
+    <section id="contact" className="section-container section-accent-cyan">
       {/* Heading */}
       <motion.div
         initial={{ opacity: 0, y: 28 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="text-center mb-20 space-y-4"
+        className="text-center mb-16 space-y-4"
       >
-        <span className="inline-flex items-center gap-1.5 px-4.5 py-1.5 rounded-full text-[10px] font-extrabold tracking-widest uppercase
-                       bg-gradient-to-r from-blue-500 to-indigo-600 text-white border-none shadow-[0_3px_12px_rgba(79,70,229,0.3)]">
+        <motion.span
+          initial={{ scale: 0.8, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[10px] font-extrabold tracking-widest uppercase bg-gradient-to-r from-cyan-500 to-violet-600 text-white shadow-glow-cyan"
+        >
           Contact
-        </span>
-        <h2 className="font-black text-4xl md:text-5xl text-white leading-tight font-outfit">
+        </motion.span>
+        <h2 className="font-black text-4xl md:text-5xl text-slate-900 leading-tight font-outfit">
           Let&apos;s{' '}
-          <span className="bg-gradient-to-r from-cyan-400 to-violet-500 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-cyan-500 to-violet-600 bg-clip-text text-transparent">
             Work Together
           </span>
         </h2>
-        <p className="max-w-xl mx-auto text-[15px] text-slate-400">
+        <motion.p
+          className="max-w-xl mx-auto text-[15px] text-slate-500"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+        >
           Have a project in mind or need technical support? Drop me a message and I&apos;ll respond within 24 hours.
-        </p>
+        </motion.p>
       </motion.div>
 
-      <div className="grid lg:grid-cols-2 gap-10 max-w-5xl mx-auto">
+      <div className="grid lg:grid-cols-2 gap-10 max-w-6xl mx-auto">
 
-        {/* Left — info + socials */}
+        {/* ── Left: Info & Socials ── */}
         <motion.div
           initial={{ opacity: 0, x: -36 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -90,27 +102,22 @@ const Contact = () => {
           className="space-y-6"
         >
           {/* Contact info */}
-          <div className="bento-card p-7 space-y-4">
-            <h3 className="font-bold text-lg text-white mb-5 font-outfit">
-              Get In Touch
-            </h3>
-            {CONTACT_INFO.map(({ icon: Icon, label, href }) => (
+          <div className="glass-card p-7 space-y-4 card-shine">
+            <div className="flex items-center gap-2 mb-2">
+              <MessageCircle size={18} className="text-cyan-600" />
+              <h3 className="font-bold text-lg text-slate-900 font-outfit">Get In Touch</h3>
+            </div>
+            {CONTACT_INFO.map(({ icon: Icon, label, href, bg, border, iconColor }) => (
               <motion.a
                 key={label}
                 href={href}
-                whileHover={{ x: 4 }}
-                className="flex items-center gap-4 p-3.5 rounded-2xl group
-                           hover:bg-[#ffffff0a]
-                           transition-all duration-200"
+                whileHover={{ x: 6, scale: 1.02 }}
+                className={`flex items-center gap-4 p-3.5 rounded-xl ${bg} border ${border} group transition-all duration-300`}
               >
-                <span className="w-10 h-10 flex items-center justify-center rounded-xl
-                                 bg-cyan-500/10 text-cyan-400 shrink-0
-                                 group-hover:scale-110 transition-transform duration-200 border border-cyan-500/20">
-                  <Icon size={17} />
-                </span>
-                <span className="text-sm font-medium text-slate-300
-                                 group-hover:text-cyan-400
-                                 transition-colors duration-200">
+                <div className={`w-10 h-10 flex items-center justify-center rounded-xl bg-white shadow-sm shrink-0 group-hover:scale-110 transition-transform duration-200`}>
+                  <Icon size={17} className={iconColor} />
+                </div>
+                <span className="text-sm font-semibold text-slate-700 group-hover:text-slate-900 transition-colors duration-200">
                   {label}
                 </span>
               </motion.a>
@@ -118,101 +125,96 @@ const Contact = () => {
           </div>
 
           {/* Socials */}
-          <div className="bento-card p-7">
-            <h3 className="font-bold text-lg text-white mb-5 font-outfit">
-              Find Me Online
-            </h3>
+          <div className="glass-card p-7 card-shine">
+            <h3 className="font-bold text-lg text-slate-900 mb-5 font-outfit">Find Me Online</h3>
             <div className="grid grid-cols-3 gap-3">
-              {SOCIALS.map(({ icon: Icon, name, url, color }) => (
+              {SOCIALS.map(({ icon: Icon, name, url, bg, hover }) => (
                 <motion.a
                   key={name}
                   href={url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.08, y: -3 }}
+                  whileHover={{ scale: 1.1, y: -4 }}
                   whileTap={{ scale: 0.94 }}
-                  className={`flex flex-col items-center gap-2 p-3.5 rounded-2xl
-                              bg-[#ffffff05] border border-[#ffffff1a]
-                              text-slate-400 hover:text-white
-                              transition-all duration-200 hover:border-cyan-500/50 hover:bg-[#ffffff0a]`}
+                  className={`flex flex-col items-center gap-2 p-3.5 rounded-xl ${bg} ${hover} text-white transition-all duration-300 shadow-md`}
                 >
                   <Icon size={20} />
-                  <span className="text-[11px] font-medium text-center leading-tight">{name}</span>
+                  <span className="text-[10px] font-semibold text-center leading-tight opacity-90">{name}</span>
                 </motion.a>
               ))}
             </div>
           </div>
         </motion.div>
 
-        {/* Right — form */}
+        {/* ── Right: Contact Form ── */}
         <motion.div
           initial={{ opacity: 0, x: 36 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.65 }}
         >
-          <div className="bento-card p-7 h-full">
-            <h3 className="font-bold text-lg text-white mb-7 font-outfit">
-              Send a Message
-            </h3>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1.5 ml-1">
-                  Your Name
-                </label>
-                <input
-                  name="name"
-                  placeholder="Amit Patel"
-                  value={form.name}
-                  onChange={handleChange}
-                  className={INPUT_CLS}
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1.5 ml-1">
-                  Email Address
-                </label>
-                <input
-                  name="email"
-                  type="email"
-                  placeholder="you@example.com"
-                  value={form.email}
-                  onChange={handleChange}
-                  className={INPUT_CLS}
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1.5 ml-1">
-                  Message
-                </label>
-                <textarea
-                  name="message"
-                  placeholder="Tell me about your project or question…"
-                  value={form.message}
-                  onChange={handleChange}
-                  rows={5}
-                  className={`${INPUT_CLS} resize-none`}
-                  required
-                />
-              </div>
+          <div className="glass-card p-7 h-full card-shine">
+            <h3 className="font-bold text-lg text-slate-900 mb-7 font-outfit">Send a Message</h3>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {['name', 'email', 'message'].map((field, i) => (
+                <motion.div
+                  key={field}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08 }}
+                >
+                  <label className="block text-xs font-bold text-slate-600 mb-2 ml-1 uppercase tracking-wider">
+                    {field === 'name' ? 'Your Name' : field === 'email' ? 'Email Address' : 'Message'}
+                  </label>
+                  {field === 'message' ? (
+                    <textarea
+                      name="message"
+                      placeholder="Tell me about your project or question…"
+                      value={form.message}
+                      onChange={handleChange}
+                      rows={5}
+                      className="input-field w-full px-4 py-3.5 rounded-xl text-sm font-medium resize-none focus:ring-2 focus:ring-cyan-400/30 focus:outline-none transition-all"
+                      required
+                    />
+                  ) : (
+                    <input
+                      name={field}
+                      type={field === 'email' ? 'email' : 'text'}
+                      placeholder={field === 'name' ? 'Amit Patel' : 'you@example.com'}
+                      value={form[field]}
+                      onChange={handleChange}
+                      className="input-field w-full px-4 py-3.5 rounded-xl text-sm font-medium focus:ring-2 focus:ring-cyan-400/30 focus:outline-none transition-all"
+                      required
+                    />
+                  )}
+                </motion.div>
+              ))}
+
               <motion.button
                 type="submit"
                 disabled={loading}
                 whileHover={{ scale: loading ? 1 : 1.02 }}
-                whileTap={{   scale: loading ? 1 : 0.97 }}
-                className="w-full justify-center py-3.5 rounded-xl font-bold text-white bg-gradient-to-r from-cyan-500 to-violet-600 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all duration-300 flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                whileTap={{ scale: loading ? 1 : 0.97 }}
+                className="w-full py-4 rounded-xl font-bold text-white bg-gradient-to-r from-cyan-500 to-violet-600 shadow-glow-cyan hover:shadow-[0_8px_30px_rgba(6,182,212,0.45)] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                {loading
-                  ? <><Loader2 size={16} className="animate-spin" /> Sending…</>
-                  : <><Send size={15} /> Send Message</>
-                }
+                {loading ? (
+                  <>
+                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}>
+                      <Loader2 size={16} />
+                    </motion.div>
+                    Sending…
+                  </>
+                ) : (
+                  <>
+                    <Send size={15} />
+                    Send Message
+                  </>
+                )}
               </motion.button>
             </form>
           </div>
         </motion.div>
-
       </div>
     </section>
   )

@@ -15,61 +15,52 @@ const PortfolioCard = ({ item, index, onDelete, isCustom }) => {
       <motion.div
         whileHover={{ y: -8 }}
         transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-        className="bento-card group h-full flex flex-col"
+        className="glass-card group h-full flex flex-col overflow-hidden card-shine"
       >
-        {/* ── Image ── */}
+        {/* Image */}
         <div className="relative h-48 overflow-hidden shrink-0">
           <img
             src={item.image || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop'}
             alt={item.title}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
             onError={e => { e.target.src = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop' }}
           />
 
-          {/* Gradient overlay on hover */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent
-                          opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-          {/* Top color strip */}
           <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${item.color || 'from-indigo-500 to-violet-600'}`} />
 
           {/* Type badge */}
           <div className="absolute top-3 left-3">
-            <span className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold text-white
+            <span className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold text-white backdrop-blur-md
                               ${isProject
-                                ? 'bg-indigo-600/90 backdrop-blur-sm'
-                                : 'bg-pink-600/90 backdrop-blur-sm'
+                                ? 'bg-cyan-600/80'
+                                : 'bg-violet-600/80'
                               }`}>
               {isProject ? <Github size={10} /> : <Award size={10} />}
               {isProject ? 'Project' : 'Certificate'}
             </span>
           </div>
 
-          {/* Delete button for custom items */}
+          {/* Delete button */}
           {isCustom && onDelete && (
             <button
               onClick={e => { e.preventDefault(); e.stopPropagation(); onDelete(item.id) }}
-              className="absolute top-3 right-3 w-7 h-7 flex items-center justify-center
-                         rounded-lg bg-red-500/80 backdrop-blur-sm text-white
-                         opacity-0 group-hover:opacity-100 transition-opacity duration-200
-                         hover:bg-red-600"
+              className="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-lg bg-red-500/80 backdrop-blur-sm text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-600"
             >
               <Trash2 size={12} />
             </button>
           )}
 
           {/* Hover CTA */}
-          <div className="absolute inset-0 flex items-center justify-center gap-2
-                          opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="absolute inset-0 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             {item.link && item.link !== '#' && (
               <a
                 href={item.link}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={e => e.stopPropagation()}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-white
-                           bg-white/20 backdrop-blur-md border border-white/30
-                           hover:bg-white/30 transition-colors duration-200"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-white/20 backdrop-blur-md border border-white/30 hover:bg-white/30 transition-colors duration-200"
               >
                 <ExternalLink size={12} />
                 {isProject ? 'Visit' : 'View Cert'}
@@ -81,9 +72,7 @@ const PortfolioCard = ({ item, index, onDelete, isCustom }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={e => e.stopPropagation()}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-white
-                           bg-white/20 backdrop-blur-md border border-white/30
-                           hover:bg-white/30 transition-colors duration-200"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-white/20 backdrop-blur-md border border-white/30 hover:bg-white/30 transition-colors duration-200"
               >
                 <Github size={12} />
                 GitHub
@@ -92,40 +81,33 @@ const PortfolioCard = ({ item, index, onDelete, isCustom }) => {
           </div>
         </div>
 
-        {/* ── Content ── */}
+        {/* Content */}
         <div className="p-5 flex flex-col flex-1 space-y-3">
-          {/* Title row */}
           <div className="flex items-start justify-between gap-2">
-            <h3 className="font-bold text-[15px] text-white leading-snug font-outfit">
+            <h3 className="font-bold text-[15px] text-slate-900 leading-snug font-outfit">
               {item.title}
             </h3>
             {(item.link && item.link !== '#') && (
               <ExternalLink size={14}
-                className="text-slate-500 group-hover:text-cyan-400 shrink-0 mt-0.5
-                           transition-colors duration-200" />
+                className="text-slate-400 group-hover:text-cyan-600 shrink-0 mt-0.5 transition-colors duration-200" />
             )}
           </div>
 
-          {/* Meta: issuer + date for certs */}
           {!isProject && (item.issuer || item.date) && (
-            <p className="text-[11px] font-semibold text-fuchsia-400">
+            <p className="text-[11px] font-semibold text-fuchsia-600">
               {item.issuer}{item.issuer && item.date ? ' · ' : ''}{item.date}
             </p>
           )}
 
-          {/* Description */}
-          <p className="text-xs leading-relaxed text-slate-400 flex-1">
+          <p className="text-xs leading-relaxed text-slate-600 flex-1">
             {item.description}
           </p>
 
-          {/* Tags */}
           <div className="flex flex-wrap gap-1.5 pt-1">
             {item.tags?.map(tag => (
               <span
                 key={tag}
-                className="px-2 py-0.5 rounded-md text-[10px] font-medium
-                           bg-[#ffffff0a] text-slate-400
-                           border border-[#ffffff1a]"
+                className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-cyan-500/5 text-slate-600 border border-cyan-500/10"
               >
                 {tag}
               </span>
